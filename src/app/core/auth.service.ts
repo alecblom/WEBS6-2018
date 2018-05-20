@@ -22,22 +22,19 @@ export class AuthService {
   user: Observable<User>;
 
   constructor(private afAuth: AngularFireAuth,
-              private afs: AngularFirestore,
+              private afStore: AngularFirestore,
               private router: Router) {
 
       //// Get auth data, then get firestore user document || null
       this.user = this.afAuth.authState
         .switchMap(user => {
           if (user) {
-            return this.afs.doc<User>(`users/${user.uid}`).valueChanges()
+            return this.afStore.doc<User>(`users/${user.uid}`).valueChanges()
           } else {
             return of(null)
           }
         })
   }
-  
-
-
 
   googleLogin() {
     const provider = new firebase.auth.GoogleAuthProvider()
@@ -51,11 +48,10 @@ export class AuthService {
       })
   }
 
-
   private updateUserData(user) {
     // Sets user data to firestore on login
 
-    const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${user.uid}`);
+    const userRef: AngularFirestoreDocument<any> = this.afStore.doc(`users/${user.uid}`);
 
     const data: User = {
       uid: user.uid,
@@ -66,7 +62,6 @@ export class AuthService {
     return userRef.set(data, { merge: true })
 
   }
-
 
   signOut() {
     this.afAuth.auth.signOut().then(() => {

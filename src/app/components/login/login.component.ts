@@ -14,9 +14,7 @@ import { AuthService } from '../../core/auth.service';
 })
 export class LoginComponent implements OnInit {
     
-  constructor(private afAuth: AngularFireAuth,
-    private db: AngularFirestore,
-    private auth: AuthService) { }
+  constructor(private afAuth: AngularFireAuth, private afStore: AngularFirestore, private auth: AuthService) { }
 
   ngOnInit() {
   }
