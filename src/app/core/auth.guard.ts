@@ -6,10 +6,15 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/take';
+import { AngularFireAuth } from 'angularfire2/auth';
+import * as firebase from 'firebase/app';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  constructor(private auth: AuthService, private router: Router) {}
+  state: Observable<firebase.User>;
+  constructor(private afAuth: AngularFireAuth, private auth: AuthService, private router: Router) {
+    this.state = afAuth.authState;
+  }
 
 
   canActivate(
@@ -19,12 +24,14 @@ export class AuthGuard implements CanActivate {
       return this.auth.user
            .take(1)
            .map(user => !!user)
-           .do(loggedIn => {
-             if (!loggedIn) {
-               console.log('access denied')
-               this.router.navigate(['/login']);
-             }
-         })
-
+           .do(user => {
+            if (user == null) {
+              console.log('access denied')
+              this.router.navigateByUrl('login');
+              return true;
+            }
+            console.log('approved')
+            return true;
+        })
   }
 }

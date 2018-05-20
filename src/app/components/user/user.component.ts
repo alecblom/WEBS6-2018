@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFirestore } from 'angularfire2/firestore';
+import { AngularFireAuth } from 'angularfire2/auth';
+import { Observable } from 'rxjs';
+import { AuthService } from '../../core/auth.service';
+import { AuthGuard } from '../../core/auth.guard';
 
 @Component({
   selector: 'app-user',
@@ -7,7 +12,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserComponent implements OnInit {
 
-  constructor() { }
+  constructor(private afAuth: AngularFireAuth,
+    private db: AngularFirestore,
+    private auth: AuthService) { }
 
   ngOnInit() {
   }

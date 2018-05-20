@@ -13,7 +13,6 @@ interface User {
   email: string;
   photoURL?: string;
   displayName?: string;
-  favoriteColor?: string;
 }
 
 
@@ -36,6 +35,7 @@ export class AuthService {
           }
         })
   }
+  
 
 
 

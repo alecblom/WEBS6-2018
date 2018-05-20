@@ -11,14 +11,13 @@ import { AppComponent } from './app.component';
 import { AuthService } from './core/auth.service';
 import { AppRoutingModule, rootRouterConfig } from './app-routing.module';
 import { CoreModule } from './core/core.module';
-import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { AuthGuard } from './core/auth.guard';
+import { UserComponent } from './components/user/user.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    UserProfileComponent
   ],
   imports: [
     BrowserModule,
