@@ -16,9 +16,6 @@ export class CompetitionDetailsComponent implements OnInit {
   ngOnInit() {
     this.competitionService.getCompetition(this.route.snapshot.paramMap.get('id')).then(
       res => this.competition = res
-    )
+    );
   }
-
-
-
 }

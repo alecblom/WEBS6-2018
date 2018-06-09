@@ -13,10 +13,10 @@ export class CompetitionListComponent implements OnInit {
   selectedOption: string;
 
   options = [
-    { name: "Tourney", value: 'tourney' },
-    { name: "Knockout", value: 'knockout' },
-    { name: "Poule", value: 'poule' },
-  ]
+    { name: 'Tourney', value: 'tourney' },
+    { name: 'Knockout', value: 'knockout' },
+    { name: 'Poule', value: 'poule' },
+  ];
 
   constructor(private competitionService: CompetitionService, private router: Router) { }
 
@@ -29,7 +29,7 @@ export class CompetitionListComponent implements OnInit {
         res => {
           this.router.navigate([`/competition/${res}`]);
         }
-      )
+      );
     }
   }
 }
