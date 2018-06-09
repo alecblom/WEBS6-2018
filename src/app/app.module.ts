@@ -35,11 +35,11 @@ import { FormsModule } from '@angular/forms';
     AngularFirestoreModule, // imports firebase/firestore, only needed for database features
     AngularFireAuthModule, // imports firebase/auth, only needed for auth features
     CoreModule,
-    FormsModule 
+    FormsModule
   ],
   providers: [AuthService, AuthGuard, AppRoutingModule, CompetitionService],
   bootstrap: [AppComponent]
 })
-export class AppModule {    
+export class AppModule {
   constructor() { }
 }
