@@ -6,11 +6,11 @@
 export const environment = {
   production: false,
   firebase: {
-    apiKey: "AIzaSyDaroOvMxHT09hqw3ZG7EtTQFSvN7pWwKw",
-    authDomain: "kevlec-angular.firebaseapp.com",
-    databaseURL: "https://kevlec-angular.firebaseio.com",
-    projectId: "kevlec-angular",
-    storageBucket: "kevlec-angular.appspot.com",
-    messagingSenderId: "810853094428"
+    apiKey: 'AIzaSyDaroOvMxHT09hqw3ZG7EtTQFSvN7pWwKw',
+    authDomain: 'kevlec-angular.firebaseapp.com',
+    databaseURL: 'https://kevlec-angular.firebaseio.com',
+    projectId: 'kevlec-angular',
+    storageBucket: 'kevlec-angular.appspot.com',
+    messagingSenderId: '810853094428'
   }
 };
