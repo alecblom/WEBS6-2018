@@ -15,7 +15,6 @@ interface User {
   displayName?: string;
 }
 
-
 @Injectable()
 export class AuthService {
 

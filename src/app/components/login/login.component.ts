@@ -6,6 +6,7 @@ import { IfObservable } from 'rxjs/observable/IfObservable';
 import { Observable, of } from 'rxjs';
 import * as firebase from 'firebase/app';
 import { AuthService } from '../../core/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -13,13 +14,15 @@ import { AuthService } from '../../core/auth.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-    
-  constructor(private afAuth: AngularFireAuth, private afStore: AngularFirestore, private auth: AuthService) { }
+
+  constructor(private afAuth: AngularFireAuth, private afStore: AngularFirestore, private auth: AuthService, private router: Router) { }
 
   ngOnInit() {
   }
   login() {
-    this.auth.googleLogin();
+    this.auth.googleLogin().then(
+      res => this.router.navigate(['/competitions'])
+    );
   }
   logout() {
     this.afAuth.auth.signOut();
