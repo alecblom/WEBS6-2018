@@ -7,16 +7,16 @@ import { environment } from '../environments/environment';
 import * as firebase from 'firebase/app';
 
 import { AppComponent } from './app.component';
-import { AuthService } from './core/auth.service';
+import { AuthService } from './services/auth/auth.service';
 import { AppRoutingModule, rootRouterConfig } from './app-routing.module';
 import { CoreModule } from './core/core.module';
 import { AuthGuard } from './core/auth.guard';
 import { UserComponent } from './components/user/user.component';
-import { CompetitionListComponent } from './components/competition-list/competition-list.component';
-import { CompetitionDetailsComponent } from './components/competition-details/competition-details.component';
+import { CompetitionListComponent } from './components/competition/list/competition-list.component';
+import { CompetitionDetailsComponent } from './components/competition/details/competition-details.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
-import { CompetitionService } from './core/competition.service';
+import { CompetitionService } from './services/competition/competition.service';
 import { FormsModule } from '@angular/forms';
 
 @NgModule({

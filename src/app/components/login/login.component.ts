@@ -5,7 +5,7 @@ import { User } from '@firebase/auth-types';
 import { IfObservable } from 'rxjs/observable/IfObservable';
 import { Observable, of } from 'rxjs';
 import * as firebase from 'firebase/app';
-import { AuthService } from '../../core/auth.service';
+import { AuthService } from '../../services/auth/auth.service';
 import { Router } from '@angular/router';
 
 @Component({

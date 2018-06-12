@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CompetitionService } from '../../core/competition.service';
+import { CompetitionService } from '../../services/competition/competition.service';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 

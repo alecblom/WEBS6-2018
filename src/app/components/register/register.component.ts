@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import * as firebase from 'firebase/app';
-import { AuthService } from '../../core/auth.service';
+import { AuthService } from '../../services/auth/auth.service';
 
 
 @Component({

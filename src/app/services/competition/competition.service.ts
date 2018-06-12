@@ -1,13 +1,9 @@
 import { Injectable } from '@angular/core';
-import { AuthService } from './auth.service';
+import { AuthService } from '../services/auth/auth.service';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFirestore, AngularFirestoreDocument } from 'angularfire2/firestore';
 import { UUID } from 'angular2-uuid';
-
-interface Competition {
-  id: string;
-  type: string;
-}
+import { Competition } from '../../models/competition.model';
 
 @Injectable({
   providedIn: 'root'

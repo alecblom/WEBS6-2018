@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CompetitionService } from '../../core/competition.service';
+import { CompetitionService } from '../../services/competition/competition.service';
 import { ActivatedRoute, Params } from '@angular/router';
 
 @Component({
