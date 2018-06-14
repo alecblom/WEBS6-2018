@@ -1,0 +1,10 @@
+<div>
+  <app-user></app-user>
+
+    <div *ngFor="let c of competitions" name="competitions">
+      <a href="competition/{{c.id}}">{{ c.type }}</a>
+    </div>
+
+  <competition-create></competition-create>
+
+</div>

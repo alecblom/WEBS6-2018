@@ -7,13 +7,8 @@ import { AngularFirestore, AngularFirestoreDocument } from 'angularfire2/firesto
 
 import { Observable, of } from 'rxjs';
 import 'rxjs/add/operator/switchMap'
+import { User } from '../../models/user.model';
 
-interface User {
-  uid: string;
-  email: string;
-  photoURL?: string;
-  displayName?: string;
-}
 
 @Injectable()
 export class AuthService {

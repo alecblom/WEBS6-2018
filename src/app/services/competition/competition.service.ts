@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { AuthService } from '../services/auth/auth.service';
+import { AuthService } from '../../services/auth/auth.service';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { AngularFirestore, AngularFirestoreDocument } from 'angularfire2/firestore';
+import { AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { UUID } from 'angular2-uuid';
 import { Competition } from '../../models/competition.model';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -16,18 +17,24 @@ export class CompetitionService {
 
   }
 
-  createCompetition(competitionType: string): Promise<any> {
+  createCompetition(data: Array<string>): Promise<any> {
       const newId = UUID.UUID();
       const competitionsRef: AngularFirestoreDocument<any> = this.afStore.doc(`competitions/${newId}`);
   
-      const data: Competition = {
+      const competition: Competition = {
         id: newId,
-        type: competitionType
+        type: data["type"],
+        ownerid: data["ownerid"],
+        participants: data["participants"],
+        matches: []
       }
-      return competitionsRef.set(data, { merge: true }).then(
+      return competitionsRef.set(competition, { merge: true }).then(
         res => { return newId; }
       );
-  
+  }
+
+  getCompetitions(): Observable<any[]> {
+    return this.afStore.collection(`competitions`).valueChanges();
   }
 
   getCompetition(competitionId: string): Promise<any> {

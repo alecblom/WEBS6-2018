@@ -12,12 +12,13 @@ import { AppRoutingModule, rootRouterConfig } from './app-routing.module';
 import { CoreModule } from './core/core.module';
 import { AuthGuard } from './core/auth.guard';
 import { UserComponent } from './components/user/user.component';
-import { CompetitionListComponent } from './components/competition/list/competition-list.component';
-import { CompetitionDetailsComponent } from './components/competition/details/competition-details.component';
+import { CompetitionListComponent } from './components/competition/list/list.component';
+import { CompetitionDetailsComponent } from './components/competition/details/details.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { CompetitionService } from './services/competition/competition.service';
 import { FormsModule } from '@angular/forms';
+import { CreateComponent } from './components/competition/create/create.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { FormsModule } from '@angular/forms';
     RegisterComponent,
     CompetitionListComponent,
     CompetitionDetailsComponent,
-    UserComponent
+    UserComponent,
+    CreateComponent
   ],
   imports: [
     BrowserModule,

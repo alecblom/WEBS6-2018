@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { CompetitionService } from '../../services/competition/competition.service';
+import { CompetitionService } from '../../../services/competition/competition.service';
 import { ActivatedRoute, Params } from '@angular/router';
 
 @Component({
-  selector: 'app-competition-details',
-  templateUrl: './competition-details.component.html',
-  styleUrls: ['./competition-details.component.css']
+  selector: 'competition-details',
+  templateUrl: './details.component.html',
+  styleUrls: ['./details.component.css']
 })
 export class CompetitionDetailsComponent implements OnInit {
 
