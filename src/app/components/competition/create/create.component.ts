@@ -9,7 +9,7 @@ import { User } from '../../../models/user.model';
   templateUrl: './create.component.html',
   styleUrls: ['./create.component.css']
 })
-export class CreateComponent implements OnInit {
+export class CompetitionCreateComponent implements OnInit {
 
   selectedOption: string;
   user: User;
@@ -37,10 +37,10 @@ export class CreateComponent implements OnInit {
     if (this.selectedOption) {
       const data: Array<string> = []
       data["type"] = this.selectedOption;
-      const participants: Array<string> = [];
+      let participants: Array<User> = [];
       if(this.user != null){
         data["ownerid"]  = this.user.uid;
-        participants.push(this.user.uid);
+        participants.push(this.user);
         // add other participants if needed
         data["participants"] = participants;
         this.competitionService.createCompetition(data).then(

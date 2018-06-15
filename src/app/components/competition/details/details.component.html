@@ -2,4 +2,15 @@
 <div *ngIf="competition">
 <h2>Competition: {{competition.id}}</h2>
 <p>Type: {{competition.type}}</p>
+<div *ngIf="user.uid == competition.ownerid">
+    <p>OWNER</p>
+</div>
+<mat-tab-group>
+        <mat-tab label="Participants">
+            <participant-list [participants]="competition.participants"></participant-list>
+        </mat-tab>
+        <mat-tab label="Matches">
+            <match-list matches="competition.matches"></match-list>
+        </mat-tab>
+      </mat-tab-group>
 </div>

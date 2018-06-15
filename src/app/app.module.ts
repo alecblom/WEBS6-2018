@@ -18,7 +18,11 @@ import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { CompetitionService } from './services/competition/competition.service';
 import { FormsModule } from '@angular/forms';
-import { CreateComponent } from './components/competition/create/create.component';
+import { CompetitionCreateComponent } from './components/competition/create/create.component';
+import { MatchListComponent } from './components/match/list/list.component';
+import { ParticipantListComponent } from './components/participant/list/list.component';
+import { MatTabsModule } from '@angular/material';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -28,7 +32,9 @@ import { CreateComponent } from './components/competition/create/create.componen
     CompetitionListComponent,
     CompetitionDetailsComponent,
     UserComponent,
-    CreateComponent
+    CompetitionCreateComponent,
+    MatchListComponent,
+    ParticipantListComponent
   ],
   imports: [
     BrowserModule,
@@ -37,7 +43,9 @@ import { CreateComponent } from './components/competition/create/create.componen
     AngularFirestoreModule, // imports firebase/firestore, only needed for database features
     AngularFireAuthModule, // imports firebase/auth, only needed for auth features
     CoreModule,
-    FormsModule
+    FormsModule,
+    MatTabsModule,
+    BrowserAnimationsModule
   ],
   providers: [AuthService, AuthGuard, AppRoutingModule, CompetitionService],
   bootstrap: [AppComponent]
