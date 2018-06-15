@@ -19,10 +19,9 @@ export class CompetitionDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.competitionService.getCompetition(this.route.snapshot.paramMap.get('id')).then(
-      res => res.subscribe(competition => {
+      competition => {
         this.competition = competition
-      }) 
-    );
+      });
     this.authService.user.subscribe(user =>{
       if(user){
         this.user = user;
