@@ -22,13 +22,16 @@ export class AuthGuard implements CanActivate {
           .take(1)
           .map(user => !!user)
           .do(user => {
-          if (user == null) {
-            console.log('access denied')
-            this.router.navigateByUrl('login');
+            if ((!user && state.url != '/login') || (user && state.url == '/login')) {
+              console.log('access denied')
+              if(state.url != '/login')
+                this.router.navigateByUrl('login');
+              else
+                this.router.navigateByUrl('profile');
+              return false;
+            }
+            console.log('approved')
             return true;
-          }
-          console.log('approved')
-          return true;
       });
   }
 }

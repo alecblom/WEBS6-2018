@@ -10,12 +10,7 @@
             <participant-list [participants]="competition.participants"></participant-list>
         </mat-tab>
         <mat-tab label="Matches">
-            <div *ngIf="competition.matches.length > 0;then match_list else no_matches"></div>
-            <ng-template #match_list>
-                    <h2>{{competition.matches.length}} total matches</h2>
-                <match-list matches="competition.matches"></match-list> 
-            </ng-template>
-            <ng-template #no_matches>No matches</ng-template>
+            <match-list [matches]="competition.matches"></match-list> 
         </mat-tab>
     </mat-tab-group>
 </div>

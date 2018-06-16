@@ -17,16 +17,20 @@ export class CompetitionService {
 
   }
 
-  createCompetition(data: Array<string>): Promise<any> {
+  createCompetition(data: Array<any>): Promise<any> {
       const newId = UUID.UUID();
       const competitionsRef: AngularFirestoreDocument<any> = this.afStore.doc(`competitions/${newId}`);
   
       const competition: Competition = {
-        id: newId,
+        uid: newId,
+        name: data["name"],
+        startDate: data["startDate"],
         type: data["type"],
-        ownerid: data["ownerid"],
+        ownerId: data["ownerId"],
+        maxParticipants: data["maxParticipants"],
+        matchTime: data["matchTime"],
         participants: data["participants"],
-        matches: []
+        matches: data["matches"]
       }
       return competitionsRef.set(competition, { merge: true }).then(
         res => { return newId; }

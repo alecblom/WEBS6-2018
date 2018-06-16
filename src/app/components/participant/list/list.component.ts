@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { User } from '../../../models/user.model';
 
 @Component({
   selector: 'participant-list',
@@ -7,7 +8,7 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class ParticipantListComponent implements OnInit {
 
-  @Input() participants: Array<any>;
+  @Input() participants: Array<User>;
 
   constructor() { }
 

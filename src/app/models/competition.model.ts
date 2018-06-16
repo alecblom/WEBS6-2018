@@ -1,8 +1,15 @@
+import { User } from "./user.model";
+import { Match } from "./match.model";
+
 export class Competition {
-    id: string;
+    uid: string;
+    name:string;
+    startDate: Date;
     type: string;
-    ownerid: string;
-    participants: Array<any>;
-    matches: Array<any>;
+    ownerId: string;
+    maxParticipants: number;
+    matchTime: number;
+    participants: Array<User>;
+    matches: Array<Match>;
 
 }

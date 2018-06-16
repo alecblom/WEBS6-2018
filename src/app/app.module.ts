@@ -23,6 +23,10 @@ import { MatchListComponent } from './components/match/list/list.component';
 import { ParticipantListComponent } from './components/participant/list/list.component';
 import { MatTabsModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CompetitionHomeComponent } from './components/competition/home/home.component';
+import { MenuComponent } from './components/menu/menu.component';
+import { NavbarModule } from './modules/navbar/navbar.module';
+import { ProfileComponent } from './components/profile/profile.component'
 
 @NgModule({
   declarations: [
@@ -34,7 +38,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     UserComponent,
     CompetitionCreateComponent,
     MatchListComponent,
-    ParticipantListComponent
+    ParticipantListComponent,
+    CompetitionHomeComponent,
+    MenuComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -45,7 +52,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     CoreModule,
     FormsModule,
     MatTabsModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    NavbarModule
   ],
   providers: [AuthService, AuthGuard, AppRoutingModule, CompetitionService],
   bootstrap: [AppComponent]

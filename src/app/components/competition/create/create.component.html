@@ -1,11 +1,33 @@
 <div>
   <h1>Create competition</h1>
-  <form>
-    <select [(ngModel)]="selectedOption" name="select">
-      <option *ngFor="let o of options" value={{o.value}}>
-        {{o.name}}
-      </option>
-    </select>
-    <button (click)="createCompetition()">Create</button>
+  <form #createCompetitionForm="ngForm" (ngSubmit)="createCompetition(createCompetitionForm)">
+    <div flex layout="column" layout-align="center center" class="text-center">
+      <div layout="row">
+        <label for="type">Type</label>
+        <select name="type" required ngModel>
+          <option *ngFor="let t of types" value={{t.value}}>
+            {{t.name}}
+          </option>
+        </select>
+      </div>
+      <div layout="row">
+        <label for="name">Name</label>
+        <input type="text" name="name" required ngModel>
+      </div>
+      <div layout="row">
+        <label for="startDate">Start Date</label>
+        <input type="date" name="startDate" required ngModel>
+      </div>
+      <div layout="row">
+        <label for="matchtime">Match Time</label>
+        <input type="time" name="matchTime" required ngModel>
+      </div>
+      <div layout="row">
+        <label for="maxParticipants">Max Participants</label>
+        <input type="number" name="maxParticipants" required ngModel>
+      </div>
+    </div>
+    <input type="hidden" name="ownerId" value="user.uid" ngModel>
+    <button type="submit" >Create</button>
   </form>
 </div>
