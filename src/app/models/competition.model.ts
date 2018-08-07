@@ -11,5 +11,4 @@ export class Competition {
     matchTime: number;
     participants: Array<User>;
     matches: Array<Match>;
-
 }

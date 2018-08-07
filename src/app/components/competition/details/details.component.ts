@@ -21,6 +21,7 @@ export class CompetitionDetailsComponent implements OnInit {
     this.competitionService.getCompetition(this.route.snapshot.paramMap.get('id')).then(
       competition => {
         this.competition = competition
+        console.log(competition);
       });
     this.authService.user.subscribe(user =>{
       if(user){

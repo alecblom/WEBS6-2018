@@ -1,12 +1,9 @@
 @import './variables';
 @import './mixins';
+@import "~bootstrap/scss/bootstrap.scss";
 body {
     background: $primaryColor;
     margin: 2em;
-}
-
-p {
-    
 }
 
 h1 {

@@ -1,8 +1,8 @@
 <a href="competitions">Back</a>
 <div *ngIf="competition">
-    <h2>Competition: {{competition.id}}</h2>
+    <h2>{{competition.name}}</h2>
     <p>Type: {{competition.type}}</p>
-    <div *ngIf="user.uid == competition.ownerid">
+    <div *ngIf="user.uid == competition.ownerId">
         <p>OWNER</p>
     </div>
     <mat-tab-group>
