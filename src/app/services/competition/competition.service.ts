@@ -5,6 +5,7 @@ import { AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection 
 import { UUID } from 'angular2-uuid';
 import { Competition } from '../../models/competition.model';
 import { Observable } from 'rxjs';
+import { PouleCompetition } from '../../models/poulecompetition.model';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,35 @@ export class CompetitionService {
 
   }
 
+  createPouleCompetition(data: Array<any>): Promise<any> {
+    const newId = UUID.UUID();
+    const competitionsRef: AngularFirestoreDocument<any> = this.afStore.doc(`competitions/${newId}`);
+
+    const competition: PouleCompetition = {
+      uid: newId,
+      name: data["name"],
+      startDate: data["startDate"],
+      type: data["type"],
+      ownerId: data["ownerId"],
+      maxParticipants: data["maxParticipants"],
+      matchTime: data["matchTime"],
+      unassignedParticipants: data["participants"],
+      matches: data["matches"],
+      poules: data["poules"]
+    }
+
+    return competitionsRef.set(competition, { merge: true }).then(
+      res => { return newId; }
+    );
+  }
+
   createCompetition(data: Array<any>): Promise<any> {
+
+      switch(data["type"]){
+        case "poule":
+          return this.createPouleCompetition(data);   
+      }
+
       const newId = UUID.UUID();
       const competitionsRef: AngularFirestoreDocument<any> = this.afStore.doc(`competitions/${newId}`);
   
@@ -29,7 +58,7 @@ export class CompetitionService {
         ownerId: data["ownerId"],
         maxParticipants: data["maxParticipants"],
         matchTime: data["matchTime"],
-        participants: data["participants"],
+        unassignedParticipants: data["participants"],
         matches: data["matches"]
       }
       return competitionsRef.set(competition, { merge: true }).then(

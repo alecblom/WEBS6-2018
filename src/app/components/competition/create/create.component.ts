@@ -63,6 +63,14 @@ export class CompetitionCreateComponent implements OnInit {
     data["matchTime"] = this.competition.matchTime;
     data["participants"] = participants;
     data["matches"] = [];
+
+    if(this.competition.type == "poule"){
+      data["poules"] = [
+        {name: "poule 1", participants: []},
+        {name: "poule 2", participants: []}
+      ]
+    }
+    console.log(data)
     
     return data;
   }

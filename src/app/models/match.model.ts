@@ -6,5 +6,4 @@ export class Match {
     startTime: Time;
     round: number;
     participants: Array<User>;
-
 }

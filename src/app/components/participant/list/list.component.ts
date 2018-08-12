@@ -15,7 +15,7 @@ export class ParticipantListComponent implements OnInit {
   ngOnInit() {
     
     this.participants.forEach(p => {
-      console.log(p)
+      
     })
   }
 

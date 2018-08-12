@@ -18,17 +18,12 @@ export class CompetitionDetailsComponent implements OnInit {
   constructor(private competitionService: CompetitionService, private route: ActivatedRoute, private authService: AuthService) { }
 
   ngOnInit() {
+    this.authService.user.subscribe(user =>{
+        this.user = user;
+    });
     this.competitionService.getCompetition(this.route.snapshot.paramMap.get('id')).then(
       competition => {
         this.competition = competition
-        console.log(competition);
-      });
-    this.authService.user.subscribe(user =>{
-      if(user){
-        this.user = user;
-      }else{
-        this.user = null;
-      }
     });
   }
 }

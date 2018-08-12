@@ -26,7 +26,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CompetitionHomeComponent } from './components/competition/home/home.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { NavbarModule } from './modules/navbar/navbar.module';
-import { ProfileComponent } from './components/profile/profile.component'
+import { ProfileComponent } from './components/profile/profile.component';
+import { DetailsPouleComponent } from './components/competition/details/poule/poule.component';
+import { DetailsTourneyComponent } from './components/competition/details/tourney/tourney.component';
+import { DetailsKnockoutComponent } from './components/competition/details/knockout/knockout.component'
 
 @NgModule({
   declarations: [
@@ -41,7 +44,10 @@ import { ProfileComponent } from './components/profile/profile.component'
     ParticipantListComponent,
     CompetitionHomeComponent,
     MenuComponent,
-    ProfileComponent
+    ProfileComponent,
+    DetailsPouleComponent,
+    DetailsTourneyComponent,
+    DetailsKnockoutComponent
   ],
   imports: [
     BrowserModule,
