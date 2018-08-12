@@ -13,7 +13,7 @@ import { ProfileComponent } from './components/profile/profile.component';
 
 export const rootRouterConfig: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
-  { path: 'login', component: LoginComponent, canActivate: [AuthGuard] },
+  { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent, canActivate: [AuthGuard] },
   { path: 'competitions', component: CompetitionHomeComponent, canActivate: [AuthGuard] },
   { path: 'competition/:id', component: CompetitionDetailsComponent, canActivate: [AuthGuard] },
@@ -30,7 +30,6 @@ export const rootRouterConfig: Routes = [
   ],
   exports: [
     RouterModule
-    
   ],
   declarations: [
   ]
