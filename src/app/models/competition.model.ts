@@ -9,6 +9,6 @@ export class Competition {
     ownerId: string;
     maxParticipants: number;
     matchTime: number;
-    unassignedParticipants: Array<User>;
+    participants: Array<User>;
     matches: Array<Match>;
 }

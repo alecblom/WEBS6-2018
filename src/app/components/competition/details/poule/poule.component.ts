@@ -13,7 +13,7 @@ import { PouleCompetition } from '../../../../models/poulecompetition.model';
 })
 export class DetailsPouleComponent implements OnInit {
 
-  private isOwner: boolean = false;
+  private isOwner: boolean;
   public user: User;
   private competition: PouleCompetition;
 
@@ -26,6 +26,9 @@ export class DetailsPouleComponent implements OnInit {
           this.competition = competition
           if(this.user.uid == this.competition.ownerId){
             this.isOwner = true;
+          }
+          else{
+            this.isOwner = false;
           }
       });
     })

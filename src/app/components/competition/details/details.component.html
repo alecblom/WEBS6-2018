@@ -2,20 +2,19 @@
 <div *ngIf="competition">
     <h2>{{competition.name}}</h2>
     <p>Type: {{competition.type}}</p>
-    <mat-tab-group>
-        <mat-tab label="Participants">
-            <participant-list [participants]="competition.unassignedParticipants"></participant-list>
-        </mat-tab>
-    </mat-tab-group>
+    <a *ngIf="user.uid != competition.ownerId">Join</a>
+    <p>Participants</p>
+    <participant-list [participants]="competition.unassignedParticipants"></participant-list>
+    
     <div [ngSwitch]="competition.type">
         <div *ngSwitchCase="'tourney'">
-                <details-tourney></details-tourney>
+            <details-tourney></details-tourney>
         </div>
         <div *ngSwitchCase="'knockout'">
-                <details-knockout></details-knockout>
+            <details-knockout></details-knockout>
         </div>
         <div *ngSwitchCase="'poule'">
-                <details-poule></details-poule>
+            <details-poule></details-poule>
         </div>
     </div>
 </div>

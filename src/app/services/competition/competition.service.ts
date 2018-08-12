@@ -30,7 +30,7 @@ export class CompetitionService {
       ownerId: data["ownerId"],
       maxParticipants: data["maxParticipants"],
       matchTime: data["matchTime"],
-      unassignedParticipants: data["participants"],
+      participants: data["participants"],
       matches: data["matches"],
       poules: data["poules"]
     }
