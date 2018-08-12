@@ -1,0 +1,10 @@
+<div  *ngIf="participants.length > 0; then participantList else noParticipants"></div>
+<ng-template #participantList>
+    <div *ngFor="let p of participants" name="participants">
+            <p>{{p.displayName}}</p>
+    </div>
+</ng-template>
+<ng-template #noParticipants>
+    <h2>No participants</h2>
+</ng-template>
+

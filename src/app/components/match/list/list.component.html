@@ -1,0 +1,10 @@
+<div *ngIf="matches.length > 0;then match_list else no_matches"></div>
+<ng-template #match_list>
+        <h2>{{matches.length}} total matches</h2>
+        <div *ngFor="let match of matches">
+            <p>test</p>
+        </div>
+</ng-template>
+<ng-template #no_matches>
+  <h2>No matches</h2>
+</ng-template>

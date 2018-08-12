@@ -1,0 +1,9 @@
+<div  *ngIf="competitions.length > 0; then competition_list else no_competitions"></div>
+<ng-template #competition_list>
+    <div *ngFor="let c of competitions" name="competitions">
+      <h1><a href="competition/{{c.uid}}">{{ c.name }}</a><span class="label label-default"> - {{ c.type }}</span></h1>
+    </div>
+</ng-template>
+<ng-template #no_competitions>
+  <h2>No competitions</h2>
+</ng-template>
