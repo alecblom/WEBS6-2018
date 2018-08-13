@@ -6,7 +6,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFirestore, AngularFirestoreDocument } from 'angularfire2/firestore';
 
 import { Observable, of } from 'rxjs';
-import 'rxjs/add/operator/switchMap'
+import 'rxjs/add/operator/switchMap';
 import { User } from '../../models/user.model';
 
 
@@ -25,21 +25,21 @@ export class AuthService {
           if (user) {
             return this.afStore.doc<User>(`users/${user.uid}`).valueChanges()
           } else {
-            return of(null)
+            return of(null);
           }
-        })
+        });
   }
 
   googleLogin() {
-    const provider = new firebase.auth.GoogleAuthProvider()
+    const provider = new firebase.auth.GoogleAuthProvider();
     return this.oAuthLogin(provider);
   }
 
   private oAuthLogin(provider) {
     return this.afAuth.auth.signInWithPopup(provider)
       .then((credential) => {
-        this.updateUserData(credential.user)
-      })
+        this.updateUserData(credential.user);
+      });
   }
 
   private updateUserData(user) {

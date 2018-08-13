@@ -1,10 +1,39 @@
-<div class="card text-center" style="max-width: 18rem;" *ngIf="auth.user | async as user">
-    <img class="card-img-top" [src]="user.photoURL" alt="Card image cap">
-    <div class="card-body">
-        <h5 class="card-title">Welcome {{ user.displayName }}!</h5>
-        <p class="card-text">This is our Angular 2 competition app. Here you are able to host, join and spectate competitions in realtime!</p>
-        <div class="card-footer">
-            <p class="card-text"> <button (click)="auth.signOut()">Logout</button></p>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="card text-center" style="max-width: 18rem;" *ngIf="auth.user | async as user">
+                <img class="card-img-top" [src]="user.photoURL" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">Welcome {{ user.displayName }}!</h5>
+                    <p class="card-text">This is our Angular 2 competition app. Here you are able to host, join and spectate competitions in realtime!</p>
+                    <div class="card-footer">
+                        <p class="card-text"> <button (click)="auth.signOut()">Logout</button></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div *ngIf="competitions.length > 0; then competition_list else no_competitions"></div>
+            <ng-template #competition_list>
+
+                <div class="list-group" *ngFor="let c of competitions" name="competitions">
+
+                    <a href="competition/{{c.uid}}" class="list-group-item list-group-item-action bg-light mb-3">
+                        <div class="card text-center border-dark  mb-3">
+                            <div class="card-header">
+                                <h5><span class="label label-default">{{ c.type }}</span></h5>
+                            </div>
+                            <div class="card-title">
+                                <h2><span class="label label-default">{{ c.name }}</span></h2>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+            </ng-template>
+            <ng-template #no_competitions>
+                <h2>No competitions</h2>
+            </ng-template>
         </div>
     </div>
 </div>

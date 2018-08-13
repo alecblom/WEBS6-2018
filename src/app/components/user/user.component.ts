@@ -5,6 +5,9 @@ import { Observable } from 'rxjs';
 import { AuthService } from '../../services/auth/auth.service';
 import { AuthGuard } from '../../core/auth.guard';
 import { Router } from '@angular/router';
+import { CompetitionService } from '../../services/competition/competition.service';
+import { Competition } from '../../models/competition.model';
+import { User } from '../../models/user.model';
 
 @Component({
   selector: 'app-user',
@@ -12,13 +15,34 @@ import { Router } from '@angular/router';
   styleUrls: ['./user.component.css']
 })
 export class UserComponent implements OnInit {
-  
+
+  competitions: Array<Competition> = [];
+  user: User;
+
   constructor(private afAuth: AngularFireAuth,
     private db: AngularFirestore,
     private auth: AuthService,
+    private competitionService: CompetitionService,
     private router: Router) { }
 
   ngOnInit() {
+    this.competitionService.getCompetitions().subscribe(
+      collection => {
+
+        // this.competitions = collection;
+
+        this.auth.user.subscribe(
+          user => {
+            this.user = user;
+            this.competitions = collection.filter(
+              competition => (
+                competition.participants.filter(participant => (participant.uid === user.uid)).length > 0
+              )
+            );
+          }
+        );
+      }
+    );
   }
 
 }
