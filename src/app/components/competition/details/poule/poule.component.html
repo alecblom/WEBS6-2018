@@ -1,21 +1,22 @@
-<div *ngIf="isOwner; then owner else not_owner"></div>
-<ng-template #owner>
-  <div  class="container">
-    <div class="row">
-      <div *ngFor="let p of competition.poules" class="col-lg-2 poule-container">
-        <div class="poule-name">
-          <h1>{{ p.name }}</h1>
-        </div>
-        <participant-list [participants]="p.participants"></participant-list>
-        <a *ngIf="competition.unassignedParticipants.length > 0" (click)="addParticipantToPoule(competition.unassignedParticipants[0], p)">
-          Add participant
-        </a>
+<div  *ngIf="isOwner == true" class="container">
+  <div class="row">
+    <div *ngFor="let p of competition.poules" class="col-lg-2 poule-container">
+      <div class="poule-name">
+        <h1>{{ p.name }}</h1>
       </div>
-      <a (click)="addPoule()">+ add poule</a>
+      <participant-list [participants]="p.participants"></participant-list>
+    </div>
+    <a (click)="addPoule()">+ add poule</a>
+  </div>
+</div>
+
+<div *ngIf="isOwner == false"  class="container">
+  <div class="row">
+    <div *ngFor="let p of competition.poules" class="col-lg-2 poule-container">
+      <div class="poule-name">
+        <h1>{{ p.name }}</h1>
+      </div>
+      <participant-list [participants]="p.participants"></participant-list>
     </div>
   </div>
-</ng-template>
-
-<ng-template #not_owner>
-  NOT OWNER
-</ng-template>
+</div>
