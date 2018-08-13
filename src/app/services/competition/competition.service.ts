@@ -43,7 +43,8 @@ export class CompetitionService {
 
   updateCompetition(competition: Competition){
     this.afStore.doc<Competition>(`competitions/${competition.uid}`).update(competition)
-    console.log("updated")
+    console.log("Updated competition:")
+    console.log(competition)
   }
 
   createCompetition(data: Array<any>): Promise<any> {
@@ -70,10 +71,7 @@ export class CompetitionService {
     return this.afStore.collection(`competitions`).valueChanges();
   }
 
-  getCompetition(competitionId: string): Promise<any> {
-    const competitionsRef: AngularFirestoreDocument<any>  = this.afStore.doc(`competitions/${competitionId}`);
-    return competitionsRef.ref.get(null).then(collections => {
-       return collections.data();
-    });
+  getCompetition(competitionId: string): Observable<any> {
+    return this.afStore.doc(`competitions/${competitionId}`).valueChanges()
   }
 }

@@ -8,6 +8,7 @@ import { Competition } from '../../../models/competition.model';
 import { DetailsPouleComponent } from './poule/poule.component';
 import { DetailsKnockoutComponent } from './knockout/knockout.component';
 import { DetailsTourneyComponent } from './tourney/tourney.component';
+import { ParticipantListComponent } from '../../participant/list/list.component';
 
 @Component({
   selector: 'competition-details',
@@ -32,10 +33,11 @@ export class CompetitionDetailsComponent implements OnInit {
   ngOnInit() {
     this.authService.user.subscribe(user => {
       this.user = user
-      this.competitionService.getCompetition(this.route.snapshot.paramMap.get('id')).then(competition => {
+      this.competitionService.getCompetition(this.route.snapshot.paramMap.get('id')).subscribe(competition => {
           this.competition = competition
-          if(this.competition.participants.includes(this.user))
+          if(this.competition.participants.filter(participant => (participant.uid === user.uid)).length > 0){
             this.isParticipating = true
+          }
           if(this.user.uid == this.competition.ownerId){
             this.isOwner = true
           }
@@ -47,6 +49,7 @@ export class CompetitionDetailsComponent implements OnInit {
   }
 
   addParticipantToCompetition(participant: User){
+    this.competition.participants.push(participant)
     switch(this.competition.type){
       case "poule":
         this.pouleComponent.addParticipantToCompetition(participant)
@@ -58,6 +61,7 @@ export class CompetitionDetailsComponent implements OnInit {
         this.knockoutComponent.addParticipantToCompetition(participant)
         break
     }
+    this.competitionService.updateCompetition(this.competition)
     this.isParticipating = true
   }
 }

@@ -2,7 +2,7 @@
 <div *ngIf="competition">
     <h2>{{competition.name}}</h2>
     <p>Type: {{competition.type}}</p>
-    <a [hidden]="isParticipating" (click)="addParticipantToCompetition(user)" >Join</a>
+    <button [hidden]="isParticipating" (click)="addParticipantToCompetition(user)" >Join</button>
     <p>Participants</p>
     <participant-list [participants]="competition.participants"></participant-list>
     
