@@ -22,7 +22,7 @@ export class DetailsPouleComponent implements OnInit {
   ngOnInit() {
     this.authService.user.subscribe(user => {
       this.user = user
-      this.competitionService.getCompetition(this.route.snapshot.paramMap.get('id')).then(competition => {
+      this.competitionService.getCompetition(this.route.snapshot.paramMap.get('id')).subscribe(competition => {
           this.competition = competition
           if(this.user.uid == this.competition.ownerId){
             this.isOwner = true;
@@ -35,14 +35,11 @@ export class DetailsPouleComponent implements OnInit {
   }
 
   addParticipantToCompetition(participant: any){
-    console.log("asdf");
-    this.competition.participants.push(participant)
     var poule = this.competition.poules[this.competition.poules.length - 1]
     if(poule.length > 3){
       poule = this.addPoule();
     }
     poule.participants.push(participant)
-    this.competitionService.updateCompetition(this.competition)
   }
 
   addPoule(): any{

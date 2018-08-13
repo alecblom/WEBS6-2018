@@ -13,7 +13,7 @@ export class DetailsKnockoutComponent implements OnInit {
   }
 
   addParticipantToCompetition(participant: any){
-    console.log("asdf")
+    console.log("knockout add")
   }
   
 }

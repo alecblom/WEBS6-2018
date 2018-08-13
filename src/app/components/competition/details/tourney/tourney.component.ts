@@ -13,7 +13,7 @@ export class DetailsTourneyComponent implements OnInit {
   }
 
   addParticipantToCompetition(participant: any){
-    console.log("asdf")
+    console.log("tourney add")
   }
 
 }
