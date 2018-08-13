@@ -6,6 +6,7 @@ import { UUID } from 'angular2-uuid';
 import { Competition } from '../../models/competition.model';
 import { Observable } from 'rxjs';
 import { PouleCompetition } from '../../models/poulecompetition.model';
+import { User } from '../../models/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -40,6 +41,11 @@ export class CompetitionService {
     );
   }
 
+  updateCompetition(competition: Competition){
+    this.afStore.doc<Competition>(`competitions/${competition.uid}`).update(competition)
+    console.log("updated")
+  }
+
   createCompetition(data: Array<any>): Promise<any> {
 
       switch(data["type"]){
@@ -58,7 +64,7 @@ export class CompetitionService {
         ownerId: data["ownerId"],
         maxParticipants: data["maxParticipants"],
         matchTime: data["matchTime"],
-        unassignedParticipants: data["participants"],
+        participants: data["participants"],
         matches: data["matches"]
       }
       return competitionsRef.set(competition, { merge: true }).then(

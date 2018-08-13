@@ -54,7 +54,7 @@ export class CompetitionCreateComponent implements OnInit {
     let participants: Array<User> = [];
 
     participants.push(this.user);
-    console.log(this.competition);
+    
     data["name"] = this.competition.name;
     data["startDate"] = this.competition.startDate;
     data["type"] = this.competition.type;
@@ -66,8 +66,7 @@ export class CompetitionCreateComponent implements OnInit {
 
     if(this.competition.type == "poule"){
       data["poules"] = [
-        {name: "poule 1", participants: []},
-        {name: "poule 2", participants: []}
+        {name: "poule 1", participants: [this.user]}
       ]
     }
     console.log(data)

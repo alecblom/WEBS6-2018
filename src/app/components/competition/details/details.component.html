@@ -2,9 +2,9 @@
 <div *ngIf="competition">
     <h2>{{competition.name}}</h2>
     <p>Type: {{competition.type}}</p>
-    <a *ngIf="user.uid != competition.ownerId">Join</a>
+    <a [hidden]="isParticipating" (click)="addParticipantToCompetition(user)" >Join</a>
     <p>Participants</p>
-    <participant-list [participants]="competition.unassignedParticipants"></participant-list>
+    <participant-list [participants]="competition.participants"></participant-list>
     
     <div [ngSwitch]="competition.type">
         <div *ngSwitchCase="'tourney'">
@@ -14,7 +14,7 @@
             <details-knockout></details-knockout>
         </div>
         <div *ngSwitchCase="'poule'">
-            <details-poule></details-poule>
+            <details-poule (competition)="competition"></details-poule>
         </div>
     </div>
 </div>

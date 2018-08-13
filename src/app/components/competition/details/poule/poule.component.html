@@ -5,9 +5,6 @@
         <h1>{{ p.name }}</h1>
       </div>
       <participant-list [participants]="p.participants"></participant-list>
-      <a *ngIf="competition.unassignedParticipants.length > 0" (click)="addParticipantToPoule(competition.unassignedParticipants[0], p)">
-        Add participant
-      </a>
     </div>
     <a (click)="addPoule()">+ add poule</a>
   </div>

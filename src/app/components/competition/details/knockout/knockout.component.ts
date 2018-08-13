@@ -12,4 +12,8 @@ export class DetailsKnockoutComponent implements OnInit {
   ngOnInit() {
   }
 
+  addParticipantToCompetition(participant: any){
+    console.log("asdf")
+  }
+  
 }
