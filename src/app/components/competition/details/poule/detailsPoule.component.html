@@ -1,0 +1,4 @@
+<div *ngIf="isOwner == true" class="container">
+  <a class="btn btn-primary text-white" style="width: 10rem;" (click)="addPoule() ">Add poule</a>
+</div>
+<poule-list [(poules)]="competition.poules"></poule-list>

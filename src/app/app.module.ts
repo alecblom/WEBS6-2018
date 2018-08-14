@@ -27,9 +27,11 @@ import { CompetitionHomeComponent } from './components/competition/home/home.com
 import { MenuComponent } from './components/menu/menu.component';
 import { NavbarModule } from './modules/navbar/navbar.module';
 import { ProfileComponent } from './components/profile/profile.component';
-import { DetailsPouleComponent } from './components/competition/details/poule/poule.component';
+import { DetailsPouleComponent } from './components/competition/details/poule/detailsPoule.component';
 import { DetailsTourneyComponent } from './components/competition/details/tourney/tourney.component';
-import { DetailsKnockoutComponent } from './components/competition/details/knockout/knockout.component'
+import { DetailsKnockoutComponent } from './components/competition/details/knockout/knockout.component';
+import { DragulaModule } from 'ng2-dragula';
+import { PouleListComponent } from './components/competition/details/poule/list/list.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +49,8 @@ import { DetailsKnockoutComponent } from './components/competition/details/knock
     ProfileComponent,
     DetailsPouleComponent,
     DetailsTourneyComponent,
-    DetailsKnockoutComponent
+    DetailsKnockoutComponent,
+    PouleListComponent
   ],
   imports: [
     BrowserModule,
@@ -59,7 +62,8 @@ import { DetailsKnockoutComponent } from './components/competition/details/knock
     FormsModule,
     MatTabsModule,
     BrowserAnimationsModule,
-    NavbarModule
+    NavbarModule,
+    DragulaModule.forRoot()
   ],
   providers: [AuthService, AuthGuard, AppRoutingModule, CompetitionService],
   bootstrap: [AppComponent]
