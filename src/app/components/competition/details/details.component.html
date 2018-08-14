@@ -1,11 +1,21 @@
-<a href="competitions">Back</a>
-<div *ngIf="competition">
-    <h2>{{competition.name}}</h2>
-    <p>Type: {{competition.type}}</p>
-    <button [hidden]="isParticipating" (click)="addParticipantToCompetition(user)" >Join</button>
-    <p>Participants</p>
-    <participant-list [participants]="competition.participants"></participant-list>
-    
+<a href="competitions" class="btn btn-info">Back</a>
+<div *ngIf="competition" class="container">
+    <div class="row ">
+        <div class="card text-center border-dark mb-3" style="width: 20rem; height: 18rem;">
+            <h2 class="card-header">{{competition.name}}</h2>
+            <div class="card-body">
+                <h5 class="card-title">Type: {{competition.type}}</h5>
+                <br><br><br><br>
+                <button class="btn btn-primary" style="width: 10rem;" [hidden]="isParticipating" (click)="addParticipantToCompetition(user)">Join</button>
+            </div>
+
+        </div>
+        <div class="card text-center border-dark mb-3 " style="width: 20rem;">
+            <h2 class="card-header">Participants</h2>
+            <participant-list [participants]="competition.participants"></participant-list>
+        </div>
+    </div>
+
     <div [ngSwitch]="competition.type">
         <div *ngSwitchCase="'tourney'">
             <details-tourney></details-tourney>
@@ -15,6 +25,19 @@
         </div>
         <div *ngSwitchCase="'poule'">
             <details-poule (competition)="competition"></details-poule>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="isOwner==f alse " class="container">
+    <div class="row ">
+        <div *ngFor="let p of competition.poules ">
+            <div class="poule-container ">
+                <div class="card text-center text-white bg-secondary mb-3 " style="width: 20rem; height: 18rem; ">
+                    <h1 class="card-header ">{{ p.name }}</h1>
+                    <participant-list [participants]="p.participants "></participant-list>
+                </div>
+            </div>
         </div>
     </div>
 </div>
