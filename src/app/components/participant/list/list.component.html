@@ -1,10 +1,9 @@
-<div  *ngIf="participants.length > 0; then participantList else noParticipants"></div>
+<div *ngIf="participants.length > 0; then participantList else noParticipants"></div>
 <ng-template #participantList>
-    <div *ngFor="let p of participants" name="participants">
-            <p>{{p.displayName}}</p>
+    <div class="list-group" *ngFor="let p of participants" name="participants">
+        <p class="list-group-item list-group-item-action">{{p.displayName}}</p>
     </div>
 </ng-template>
 <ng-template #noParticipants>
-    <h2>No participants</h2>
+    <h5>No participants</h5>
 </ng-template>
-
