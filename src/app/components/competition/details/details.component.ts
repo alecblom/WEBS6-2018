@@ -5,7 +5,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { AuthService } from '../../../services/auth/auth.service';
 import { User } from '../../../models/user.model';
 import { Competition } from '../../../models/competition.model';
-import { DetailsPouleComponent } from './poule/poule.component';
+import { DetailsPouleComponent } from './poule/detailsPoule.component';
 import { DetailsKnockoutComponent } from './knockout/knockout.component';
 import { DetailsTourneyComponent } from './tourney/tourney.component';
 import { ParticipantListComponent } from '../../participant/list/list.component';
@@ -49,7 +49,6 @@ export class CompetitionDetailsComponent implements OnInit {
   }
 
   addParticipantToCompetition(participant: User){
-    this.competition.participants.push(participant)
     switch(this.competition.type){
       case "poule":
         this.pouleComponent.addParticipantToCompetition(participant)
@@ -61,7 +60,6 @@ export class CompetitionDetailsComponent implements OnInit {
         this.knockoutComponent.addParticipantToCompetition(participant)
         break
     }
-    this.competitionService.updateCompetition(this.competition)
     this.isParticipating = true
   }
 }

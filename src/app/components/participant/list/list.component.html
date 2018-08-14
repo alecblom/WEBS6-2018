@@ -1,9 +1,8 @@
-<div *ngIf="participants.length > 0; then participantList else noParticipants"></div>
-<ng-template #participantList>
-    <div class="list-group" *ngFor="let p of participants" name="participants">
-        <p class="list-group-item list-group-item-action">{{p.displayName}}</p>
+<div *ngIf="participants.length < 1">
+    <h5>No Participants</h5>
+</div>
+<div class="container list-group" dragula="{{name}}" [(dragulaModel)]="participants">
+    <div class="list-items" *ngFor="let p of participants" name="participants">
+        <p class="list-group-item list-group-item-action" tag="participant" id="{{ p.uid }}">{{p.displayName}}</p>
     </div>
-</ng-template>
-<ng-template #noParticipants>
-    <h5>No participants</h5>
-</ng-template>
+</div>

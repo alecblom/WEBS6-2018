@@ -12,7 +12,7 @@
         </div>
         <div class="card text-center border-dark mb-3 " style="width: 20rem;">
             <h2 class="card-header">Participants</h2>
-            <participant-list [participants]="competition.participants"></participant-list>
+            <participant-list [name]="'competition'" [(participants)]="competition.participants"></participant-list>
         </div>
     </div>
 
@@ -24,20 +24,7 @@
             <details-knockout></details-knockout>
         </div>
         <div *ngSwitchCase="'poule'">
-            <details-poule (competition)="competition"></details-poule>
-        </div>
-    </div>
-</div>
-
-<div *ngIf="isOwner==false " class="container">
-    <div class="row ">
-        <div *ngFor="let p of competition.poules ">
-            <div class="poule-container ">
-                <div class="card text-center text-white bg-secondary mb-3 " style="width: 20rem; height: 18rem; ">
-                    <h1 class="card-header ">{{ p.name }}</h1>
-                    <participant-list [participants]="p.participants "></participant-list>
-                </div>
-            </div>
+            <details-poule [(competition)]="competition"></details-poule>
         </div>
     </div>
 </div>
