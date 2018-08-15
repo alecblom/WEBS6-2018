@@ -2,7 +2,7 @@
     <h5>No Participants</h5>
 </div>
 <div class="container list-group" dragula="{{name}}" [(dragulaModel)]="participants">
-    <div class="list-items" *ngFor="let p of participants" name="participants">
-        <p class="list-group-item list-group-item-action" tag="participant" id="{{ p.uid }}">{{p.displayName}}</p>
+    <div [attr.class]="canEdit ? 'drag-item' : 'drag-item no-drag'" *ngFor="let p of participants" name="participants">
+        <p class="list-group-item list-group-item-action" name="participant" id="{{ p.uid }}">{{p.displayName}}</p>
     </div>
 </div>
