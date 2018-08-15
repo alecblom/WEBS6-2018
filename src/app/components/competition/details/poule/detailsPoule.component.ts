@@ -14,12 +14,14 @@ import { Subscription } from 'rxjs';
 })
 export class DetailsPouleComponent implements OnInit {
 
-  private isOwner: boolean;
   public user: User;
-  subs = new Subscription();
+  private subs = new Subscription();
+  private isOwner: boolean;
+  private isEditMode: boolean
+
   @Input() competition: PouleCompetition;
 
-  constructor(private competitionService: CompetitionService, private route: ActivatedRoute, private authService: AuthService, private dragulaService: DragulaService) { }
+  constructor(private competitionService: CompetitionService, private route: ActivatedRoute, private authService: AuthService) { }
 
   ngOnInit() {
     this.authService.user.subscribe(user => {
@@ -34,13 +36,19 @@ export class DetailsPouleComponent implements OnInit {
           }
       });
     })
-    this.subs.add(this.dragulaService.drop("poule").subscribe(({name, el}) => {
-      this.competitionService.updateCompetition(this.competition)
-    }))
   }
 
   ngOnDestroy() {
     this.subs.unsubscribe();
+  }
+
+  saveCompetition(){
+    this.competitionService.updateCompetition(this.competition)
+    this.setEditMode(false)
+  }
+
+  setEditMode(value: boolean){
+    this.isEditMode = value
   }
 
   addParticipantToCompetition(participant: any){
@@ -63,7 +71,6 @@ export class DetailsPouleComponent implements OnInit {
     }
     poule.participants.push(participant)
     this.competition.participants.push(participant)
-    this.competitionService.updateCompetition(this.competition)
   }
 
   addPoule(): any{
@@ -78,7 +85,6 @@ export class DetailsPouleComponent implements OnInit {
       participants: []
     }
     this.competition.poules.push(poule)
-    this.competitionService.updateCompetition(this.competition)
     return poule;
   }
 
