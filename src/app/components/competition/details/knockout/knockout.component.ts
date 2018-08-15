@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CompetitionService } from '../../../../services/competition/competition.service';
 
 @Component({
   selector: 'details-knockout',
@@ -15,5 +16,4 @@ export class DetailsKnockoutComponent implements OnInit {
   addParticipantToCompetition(participant: any){
     console.log("knockout add")
   }
-  
 }
