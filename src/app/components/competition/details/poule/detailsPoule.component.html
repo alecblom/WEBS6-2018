@@ -1,10 +1,16 @@
 <div *ngIf="isOwner == true" class="container">
-  <a *ngIf="!isEditMode" class="btn btn-primary text-white" style="width: 10rem;" (click)="setEditMode(true) ">Edit poules</a>
-  <a *ngIf="isEditMode" class="btn btn-primary text-white" style="width: 10rem;" (click)="saveCompetition() ">Save poules</a>
+    <a *ngIf="!isEditMode" class="btn btn-primary text-white" style="width: 10rem;" (click)="setEditMode(true) ">Edit poules</a>
+    <a *ngIf="isEditMode" class="btn btn-primary text-white" style="width: 10rem;" (click)="saveCompetition() ">Save poules</a>
 </div>
 <div class="row ">
-    <poule-list [(isEditMode)]="isEditMode" [(poules)]="competition.poules" class="row"></poule-list>
-  <div *ngIf="isEditMode">
-    <a class="btn btn-primary text-white" style="width: 10rem;" (click)="addPoule() ">Add poule</a>
-  </div>
+    <poule-list [(isEditMode)]="isEditMode" [(poules)]="competition.poules"></poule-list>
+    <div *ngIf="isEditMode">
+        <div class="poule-container">
+            <div class="card text-center text-white border-secondary mb-3" style="width: 20rem; height: 18rem;">
+                <div class="card-header ">
+                    <a class="btn btn-primary text-white" style="width: 10rem;" (click)="addPoule() ">Add poule</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
