@@ -1,18 +1,20 @@
-<a href="competitions" class="btn btn-info">Back</a>
+<br>
 <div *ngIf="competition" class="container">
     <div class="row ">
-        <div class="card text-center border-dark mb-3" style="width: 20rem; height: 18rem;">
-            <h2 class="card-header">{{competition.name}}</h2>
-            <div class="card-body">
-                <h5 class="card-title">Type: {{competition.type}}</h5>
-                <br><br><br><br>
-                <button class="btn btn-primary" style="width: 10rem;" [hidden]="isParticipating" (click)="addParticipantToCompetition(user)">Join</button>
+        <div class="details-container">
+            <div class="card text-center border-dark mb-3" style="width: 20rem; height: 18rem;">
+                <h2 class="card-header">{{competition.name}}</h2>
+                <div class="card-body">
+                    <h5 class="card-title">Type: {{competition.type}}</h5>
+                    <button class="btn btn-primary" style="width: 10rem;" [hidden]="isParticipating" (click)="addParticipantToCompetition(user)">Join</button>
+                </div>
             </div>
-
         </div>
-        <div class="card text-center border-dark mb-3 " style="width: 20rem;">
-            <h2 class="card-header">Participants</h2>
-            <participant-list [name]="'competition'" [(participants)]="competition.participants"></participant-list>
+        <div class="details-container">
+            <div class="card text-center border-dark mb-3 " style="width: 20rem;">
+                <h2 class="card-header">Participants</h2>
+                <participant-list [name]="'competition'" [(participants)]="competition.participants"></participant-list>
+            </div>
         </div>
     </div>
 
