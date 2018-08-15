@@ -16,8 +16,9 @@ export class DetailsPouleComponent implements OnInit {
 
   public user: User;
   private subs = new Subscription();
-  private isOwner: boolean;
+  private isOwner: boolean
   private isEditMode: boolean
+  private canAddPoule: boolean
 
   @Input() competition: PouleCompetition;
 
@@ -28,14 +29,24 @@ export class DetailsPouleComponent implements OnInit {
       this.user = user
       this.competitionService.getCompetition(this.route.snapshot.paramMap.get('id')).subscribe(competition => {
           this.competition = competition
-          if(this.user.uid == this.competition.ownerId){
-            this.isOwner = true;
-          }
-          else{
-            this.isOwner = false;
-          }
+          this.setBooleans()
       });
     })
+  }
+
+  setBooleans(){
+    if(this.user.uid == this.competition.ownerId){
+      this.isOwner = true
+    }
+    else{
+      this.isOwner = false
+    }
+    if((this.competition.participants.length / 2) < (this.competition.poules.length + 1)){
+      this.canAddPoule = false
+    }
+    else{
+      this.canAddPoule = true
+    }
   }
 
   ngOnDestroy() {

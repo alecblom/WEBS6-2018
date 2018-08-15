@@ -2,9 +2,7 @@
   <a *ngIf="!isEditMode" class="btn btn-primary text-white" style="width: 10rem;" (click)="setEditMode(true) ">Edit poules</a>
   <a *ngIf="isEditMode" class="btn btn-primary text-white" style="width: 10rem;" (click)="saveCompetition() ">Save poules</a>
 </div>
-<div class="row ">
-    <poule-list [(isEditMode)]="isEditMode" [(poules)]="competition.poules" class="row"></poule-list>
-  <div *ngIf="isEditMode">
-    <a class="btn btn-primary text-white" style="width: 10rem;" (click)="addPoule() ">Add poule</a>
-  </div>
+<poule-list [(isEditMode)]="isEditMode" [(poules)]="competition.poules" class="row"></poule-list>
+<div *ngIf="isEditMode">
+    <button [disabled]="!canAddPoule" class="btn btn-primary text-white" style="width: 10rem;" (click)="addPoule() ">Add poule</button>
 </div>
