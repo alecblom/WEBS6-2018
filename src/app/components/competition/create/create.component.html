@@ -38,7 +38,7 @@
       <div class="form-group">
         <label for="startDate">Start Date</label>
         <input id="startDate" name="startDate" class="form-control"
-          type="date" required 
+          type="datetime-local" required 
           [(ngModel)]="competition.startDate" #startDate="ngModel">
         <div *ngIf="startDate.invalid && (startDate.dirty || startDate.touched)"
           class="alert alert-danger">
@@ -64,7 +64,7 @@
       <div class="form-group">
         <label for="maxParticipants">Max Participants</label>
         <input id="maxParticipants" name="maxParticipants" class="form-control"
-          type="number" required 
+          type="number" required min="2"
           [(ngModel)]="competition.maxParticipants" #maxParticipants="ngModel">
         <div *ngIf="maxParticipants.invalid && (maxParticipants.dirty || maxParticipants.touched)"
           class="alert alert-danger">

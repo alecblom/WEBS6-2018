@@ -2,11 +2,17 @@
 <div *ngIf="competition" class="container">
     <div class="row ">
         <div class="details-container">
-            <div class="card text-center border-dark mb-3" style="width: 20rem; height: 18rem;">
+            <div class="card text-center border-dark mb-3">
                 <h2 class="card-header">{{competition.name}}</h2>
                 <div class="card-body">
                     <h5 class="card-title">Type: {{competition.type}}</h5>
-                    <button class="btn btn-primary" style="width: 10rem;" [hidden]="isParticipating" (click)="addParticipantToCompetition(user)">Join</button>
+                    <h5 class="card-title">Start: {{startDateString}}</h5>
+                    <div *ngIf="isOwner == true" class="settings-container">
+                        <button *ngIf="!isEditMode" class="btn btn-primary text-white settings-item" style="width: 10rem;" (click)="setEditMode(true) ">Edit competition</button>
+                        <button *ngIf="isEditMode" class="btn btn-primary text-white settings-item" style="width: 10rem;" (click)="saveCompetition() ">Save changes</button>
+                        <button [disabled]="!isClosed" class="btn btn-primary text-white settings-item" style="width: 10rem;">Start competition</button>
+                        <button [disabled]="isClosed" class="btn btn-primary" style="width: 10rem;" [hidden]="isParticipating" (click)="addParticipantToCompetition(user)">Join</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -26,7 +32,7 @@
             <details-knockout></details-knockout>
         </div>
         <div *ngSwitchCase="'poule'">
-            <details-poule [(competition)]="competition"></details-poule>
+            <details-poule [(competition)]="competition" [(isEditMode)]="isEditMode"></details-poule>
         </div>
     </div>
 </div>

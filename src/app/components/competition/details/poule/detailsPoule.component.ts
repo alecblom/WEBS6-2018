@@ -17,9 +17,9 @@ export class DetailsPouleComponent implements OnInit {
   public user: User;
   private subs = new Subscription();
   private isOwner: boolean
-  private isEditMode: boolean
   private canAddPoule: boolean
 
+  @Input() isEditMode: boolean
   @Input() competition: PouleCompetition;
 
   constructor(private competitionService: CompetitionService, private route: ActivatedRoute, private authService: AuthService) { }
@@ -55,7 +55,6 @@ export class DetailsPouleComponent implements OnInit {
 
   saveCompetition(){
     this.competitionService.updateCompetition(this.competition)
-    this.setEditMode(false)
   }
 
   setEditMode(value: boolean){
@@ -82,11 +81,11 @@ export class DetailsPouleComponent implements OnInit {
     }
     poule.participants.push(participant)
     this.competition.participants.push(participant)
+    this.competitionService.updateCompetition(this.competition)
   }
 
   addPoule(): any{
-    if((this.competition.participants.length / 2) < (this.competition.poules.length + 1)){
-      // TODO: error message or replace button in html
+    if(!this.canAddPoule){
       console.log("Need more participants to add another poule")
       return;
     }

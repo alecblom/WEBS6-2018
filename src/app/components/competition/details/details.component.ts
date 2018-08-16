@@ -13,7 +13,7 @@ import { ParticipantListComponent } from '../../participant/list/list.component'
 @Component({
   selector: 'competition-details',
   templateUrl: './details.component.html',
-  styleUrls: ['./details.component.css']
+  styleUrls: ['./details.component.scss']
 })
 export class CompetitionDetailsComponent implements OnInit {
   @ViewChild(DetailsPouleComponent) pouleComponent: DetailsPouleComponent
@@ -23,7 +23,10 @@ export class CompetitionDetailsComponent implements OnInit {
   public competition: Competition = undefined
   private user: User
   private isOwner: boolean
-  private isParticipating: boolean = false
+  private isEditMode: boolean
+  private isParticipating: boolean
+  private isClosed: boolean
+  private startDateString: string
 
   constructor(private competitionService: CompetitionService,
               private userService: UserService,
@@ -35,15 +38,10 @@ export class CompetitionDetailsComponent implements OnInit {
       this.user = user
       this.competitionService.getCompetition(this.route.snapshot.paramMap.get('id')).subscribe(competition => {
           this.competition = competition
-          if(this.competition.participants.filter(participant => (participant.uid === user.uid)).length > 0){
-            this.isParticipating = true
-          }
-          if(this.user.uid == this.competition.ownerId){
-            this.isOwner = true
-          }
-          else{
-            this.isOwner = false
-          }
+          this.isParticipating = this.competition.participants.filter(participant => (participant.uid === user.uid)).length > 0
+          this.isOwner = this.user.uid == this.competition.ownerId
+          this.isClosed = new Date(this.competition.startDate) < new Date()
+          this.startDateString = this.competition.startDate.toLocaleString()
       });
     })
   }
@@ -54,12 +52,35 @@ export class CompetitionDetailsComponent implements OnInit {
         this.pouleComponent.addParticipantToCompetition(participant)
         break
       case "tourney":
+        this.competition.participants.push(participant)
+        this.competitionService.updateCompetition(this.competition)
         this.tourneyComponent.addParticipantToCompetition(participant)
         break
       case "knockout":
+        this.competition.participants.push(participant)
+        this.competitionService.updateCompetition(this.competition)
         this.knockoutComponent.addParticipantToCompetition(participant)
         break
     }
     this.isParticipating = true
+  }
+
+  saveCompetition(){
+    switch(this.competition.type){
+      case "poule":
+        this.pouleComponent.saveCompetition()
+        break
+      case "tourney":
+        this.competitionService.updateCompetition(this.competition)
+        break
+      case "knockout":
+        this.competitionService.updateCompetition(this.competition)
+        break
+    }
+    this.setEditMode(false)
+  }
+
+  setEditMode(value: boolean){
+    this.isEditMode = value
   }
 }
