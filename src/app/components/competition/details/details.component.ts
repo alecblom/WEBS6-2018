@@ -25,6 +25,8 @@ export class CompetitionDetailsComponent implements OnInit {
   private isOwner: boolean
   private isEditMode: boolean
   private isParticipating: boolean
+  private isClosed: boolean
+  private startDateString: string
 
   constructor(private competitionService: CompetitionService,
               private userService: UserService,
@@ -36,18 +38,10 @@ export class CompetitionDetailsComponent implements OnInit {
       this.user = user
       this.competitionService.getCompetition(this.route.snapshot.paramMap.get('id')).subscribe(competition => {
           this.competition = competition
-          if(this.competition.participants.filter(participant => (participant.uid === user.uid)).length > 0){
-            this.isParticipating = true
-          }
-          else{
-            this.isParticipating = false
-          }
-          if(this.user.uid == this.competition.ownerId){
-            this.isOwner = true
-          }
-          else{
-            this.isOwner = false
-          }
+          this.isParticipating = this.competition.participants.filter(participant => (participant.uid === user.uid)).length > 0
+          this.isOwner = this.user.uid == this.competition.ownerId
+          this.isClosed = new Date(this.competition.startDate) < new Date()
+          this.startDateString = this.competition.startDate.toLocaleString()
       });
     })
   }
