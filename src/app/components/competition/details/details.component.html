@@ -3,36 +3,63 @@
     <div class="row ">
         <div class="details-container">
             <div class="card text-center border-dark mb-3">
-                <h2 class="card-header">{{competition.name}}</h2>
-                <div class="card-body">
-                    <h5 class="card-title">Type: {{competition.type}}</h5>
-                    <h5 class="card-title">Start: {{startDateString}}</h5>
-                    <div *ngIf="isOwner == true" class="settings-container">
-                        <button *ngIf="!isEditMode" class="btn btn-primary text-white settings-item" style="width: 10rem;" (click)="setEditMode(true) ">Edit competition</button>
-                        <button *ngIf="isEditMode" class="btn btn-primary text-white settings-item" style="width: 10rem;" (click)="saveCompetition() ">Save changes</button>
-                        <button [disabled]="!isClosed" class="btn btn-primary text-white settings-item" style="width: 10rem;">Start competition</button>
-                        <button [disabled]="isClosed" class="btn btn-primary" style="width: 10rem;" [hidden]="isParticipating" (click)="addParticipantToCompetition(user)">Join</button>
+                <form #editCompetitionForm="ngForm" (ngSubmit)="saveCompetition(editCompetitionForm)">
+                    <h2 *ngIf="!isEditMode" class="card-header">{{competition.name}}</h2>
+                    <input *ngIf="isEditMode" id="name" name="name" style="height:65px; width: 320px; font-size: 2rem" class="form-control"
+                    type="text" required minlength="4"
+                    [(ngModel)]="competition.name" #name="ngModel">
+                    <div class="card-body" style="text-align: start">
+                        <h5 class="card-title">Type: {{competition.type}}</h5>
+                        <div *ngIf="!isEditMode">
+                                <h5 class="card-title">Start Date: {{startDateString}}</h5>
+                                <h5 class="card-title">Match Time: {{competition.matchTime}}</h5>
+                                <h5 class="card-title">Max Participants: {{competition.maxParticipants}}</h5>
+                        </div>
+                        <div *ngIf="isEditMode">
+                            <h5 class="card-title">Start Date: </h5>
+                            <input id="startDate" name="startDate" class="form-control"
+                                type="datetime-local" required 
+                                [(ngModel)]="competition.startDate" #startDate="ngModel">
+                            <h5 class="card-title">Match Time: </h5>
+                            <input id="matchTime" name="matchTime" class="form-control"
+                                type="time" required 
+                                [(ngModel)]="competition.matchTime" #matchTime="ngModel">
+                            <h5 class="card-title">Max Participants: </h5>
+                            <input id="maxParticipants" name="maxParticipants" class="form-control"
+                                type="number" required min="2" oninput="if(value < 2) value = 2"
+                                [(ngModel)]="competition.maxParticipants" #maxParticipants="ngModel">
+                        </div>
+                        <div class="settings-container">
+                            <div *ngIf="isOwner == true">
+                                <button *ngIf="!isEditMode" class="btn btn-primary text-white settings-item" style="width: 10rem;" (click)="setEditMode(true)">Edit Competition</button>
+                                <button *ngIf="isEditMode" [disabled]="!editCompetitionForm.form.valid" class="btn btn-primary text-white settings-item" style="width: 10rem;" type="submit">Save Changes</button>
+                                <button [disabled]="!isClosed" class="btn btn-primary text-white settings-item" style="width: 10rem;" (click)="startCompetition()">Start Competition</button>
+                                <button *ngIf="isEditMode" class="btn btn-danger text-white settings-item" style="width: 10rem;" (click)="deleteCompetition()">Delete Competition</button>
+                            </div>
+                            <button [disabled]="isClosed" class="btn btn-primary" style="width: 10rem;" [hidden]="isParticipating" (click)="addParticipantToCompetition(user)">Join</button>
+                        </div>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
         <div class="details-container">
             <div class="card text-center border-dark mb-3 " style="width: 20rem;">
                 <h2 class="card-header">Participants</h2>
-                <participant-list [name]="'competition'" [(participants)]="competition.participants"></participant-list>
+                <participant-list [(participants)]="competition.participants"></participant-list>
+                <button *ngIf="isEditMode" class="btn btn-primary text-white settings-item" style="width: 10rem;" (click)="addTestParticipant()">Add Test Participant</button>
             </div>
         </div>
     </div>
 
     <div [ngSwitch]="competition.type">
         <div *ngSwitchCase="'tourney'">
-            <details-tourney></details-tourney>
+            <details-tourney [(competition)]="competition"></details-tourney>
         </div>
         <div *ngSwitchCase="'knockout'">
             <details-knockout></details-knockout>
         </div>
         <div *ngSwitchCase="'poule'">
-            <details-poule [(competition)]="competition" [(isEditMode)]="isEditMode"></details-poule>
+            <details-poule [(competition)]="competition" [(isOwner)]="isOwner" [(isEditMode)]="isEditMode"></details-poule>
         </div>
     </div>
 </div>

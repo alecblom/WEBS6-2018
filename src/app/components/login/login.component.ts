@@ -1,10 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { User } from '@firebase/auth-types';
-import { IfObservable } from 'rxjs/observable/IfObservable';
-import { Observable, of } from 'rxjs';
-import * as firebase from 'firebase/app';
 import { AuthService } from '../../services/auth/auth.service';
 import { Router } from '@angular/router';
 

@@ -1,9 +1,6 @@
-import { Time } from "@angular/common";
 import { Participant } from "./participant.model";
 
-export class Match {
+export class Poule {
     uid: string;
-    startTime: Date;
-    round: number;
     participants: Array<Participant>;
 }

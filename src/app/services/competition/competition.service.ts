@@ -6,7 +6,6 @@ import { UUID } from 'angular2-uuid';
 import { Competition } from '../../models/competition.model';
 import { Observable } from 'rxjs';
 import { PouleCompetition } from '../../models/poulecompetition.model';
-import { User } from '../../models/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -32,7 +31,7 @@ export class CompetitionService {
       maxParticipants: data["maxParticipants"],
       matchTime: data["matchTime"],
       participants: data["participants"],
-      matches: data["matches"],
+      rounds: data["rounds"],
       poules: data["poules"]
     }
 
@@ -47,24 +46,31 @@ export class CompetitionService {
     console.log(competition)
   }
 
-  createCompetition(data: Array<any>): Promise<any> {
-      const newId = UUID.UUID();
-      const competitionsRef: AngularFirestoreDocument<any> = this.afStore.doc(`competitions/${newId}`);
+  deleteCompetition(competition: Competition) {
+    this.afStore.doc<Competition>(`competitions/${competition.uid}`).delete()
+  }
 
-      const competition: Competition = {
-        uid: newId,
-        name: data["name"],
-        startDate: data["startDate"],
-        type: data["type"],
-        ownerId: data["ownerId"],
-        maxParticipants: data["maxParticipants"],
-        matchTime: data["matchTime"],
-        participants: data["participants"],
-        matches: data["matches"]
-      };
-      return competitionsRef.set(competition, { merge: true }).then(
-        res => { return newId; }
-      );
+  createCompetition(data: Array<any>): Promise<any> {
+    if(data["type"] == "poule"){
+      return this.createPouleCompetition(data)
+    }
+    const newId = UUID.UUID();
+    const competitionsRef: AngularFirestoreDocument<any> = this.afStore.doc(`competitions/${newId}`);
+
+    const competition: Competition = {
+      uid: newId,
+      name: data["name"],
+      startDate: data["startDate"],
+      type: data["type"],
+      ownerId: data["ownerId"],
+      maxParticipants: data["maxParticipants"],
+      matchTime: data["matchTime"],
+      participants: data["participants"],
+      rounds: data["rounds"]
+    };
+    return competitionsRef.set(competition, { merge: true }).then(
+      res => { return newId; }
+    );
   }
 
   getCompetitions(): Observable<any[]> {

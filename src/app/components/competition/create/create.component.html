@@ -22,15 +22,15 @@
       <div class="form-group">
         <label for="name">Name</label>
         <input id="name" name="name" class="form-control"
-          type="text" required minLengt="4"
+          type="text" required minlength="4" min="4"
           [(ngModel)]="competition.name" #name="ngModel">
         <div *ngIf="name.invalid && (name.dirty || name.touched)"
           class="alert alert-danger">
-          <div *ngIf="name.errors.required">
-            Name is required.
-          </div>
           <div *ngIf="name.errors.minlength">
             Name must be at least 4 characters long.
+          </div>
+          <div *ngIf="name.errors.required">
+            Name is required.
           </div>
         </div>
       </div>
@@ -64,7 +64,7 @@
       <div class="form-group">
         <label for="maxParticipants">Max Participants</label>
         <input id="maxParticipants" name="maxParticipants" class="form-control"
-          type="number" required min="2"
+          type="number" required min="2" oninput="if(value < 2) value = 2"
           [(ngModel)]="competition.maxParticipants" #maxParticipants="ngModel">
         <div *ngIf="maxParticipants.invalid && (maxParticipants.dirty || maxParticipants.touched)"
           class="alert alert-danger">

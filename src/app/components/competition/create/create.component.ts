@@ -5,7 +5,9 @@ import { AuthService } from '../../../services/auth/auth.service';
 import { User } from '../../../models/user.model';
 import { NgForm, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Competition } from '../../../models/competition.model';
-import { forEach } from '@angular/router/src/utils/collection';
+import { Participant } from '../../../models/participant.model';
+import { Poule } from '../../../models/poule.model';
+import { UUID } from 'angular2-uuid';
 
 @Component({
   selector: 'competition-create',
@@ -51,9 +53,14 @@ export class CompetitionCreateComponent implements OnInit {
 
   generateCompetitionData(): Array<any>{
     const data: Array<any> = []
-    let participants: Array<User> = [];
-
-    participants.push(this.user);
+    let participants: Array<Participant> = [];
+    const participant : Participant = {
+      uid: UUID.UUID(),
+      userId: this.user.uid,
+      name: this.user.displayName,
+      points: 0
+    }
+    participants.push(participant);
     
     data["name"] = this.competition.name;
     data["startDate"] = this.competition.startDate;
@@ -62,12 +69,14 @@ export class CompetitionCreateComponent implements OnInit {
     data["maxParticipants"] = this.competition.maxParticipants;
     data["matchTime"] = this.competition.matchTime;
     data["participants"] = participants;
-    data["matches"] = [];
+    data["rounds"] = [];
 
     if(this.competition.type == "poule"){
-      data["poules"] = [
-        {name: "poule 1", participants: [this.user]}
-      ]
+      const poule: Poule = {
+        uid: UUID.UUID(),
+        participants: participants,
+      }
+      data["poules"] = [poule]
     }
     console.log(data)
     

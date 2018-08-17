@@ -4,10 +4,12 @@
 }
 .settings-container {
     height: 100%;
+    width: 100%;
     display: inline-block;
+    text-align: center;
 }
 
 .settings-item {
-    margin: 10px;
+    margin: 10px auto;
     display: block;
 }
