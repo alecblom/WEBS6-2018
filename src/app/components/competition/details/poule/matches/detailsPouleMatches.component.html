@@ -1,0 +1,19 @@
+<table class="table" style="width: 20rem">
+    <tr>
+        <th>Start time</th>
+        <th>Participant 1</th>
+        <th>Participant 2</th>
+        <th>Winner</th>
+    </tr>
+    <tr *ngFor="let match of competition.matches; let i = index">
+        <td>{{match.startDate}}</td>
+        <td>{{match.participant1.name}}</td>
+        <td>{{match.participant2.name}}</td>
+        <td *ngIf="hasWinner; else noWinner">{{match.winner.name}}</td>
+        <ng-template #noWinner>
+            <td>
+                <button [disabled]="!isClosed" class="btn btn-primary text-white settings-item" style="width: 10rem;" (click)="pickWinner()">Pick winner</button>
+            </td>
+        </ng-template>
+    </tr>
+</table>
