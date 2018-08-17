@@ -1,6 +1,6 @@
 import { Competition } from "./competition.model";
-import { User } from "./user.model";
+import { Poule } from "./poule.model";
 
 export class PouleCompetition extends Competition {
-    poules: Array<any>
+    poules: Array<Poule>
 }

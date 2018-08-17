@@ -1,11 +1,11 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { User } from '../../../../models/user.model';
 import { CompetitionService } from '../../../../services/competition/competition.service';
-import { ActivatedRoute } from '@angular/router';
-import { AuthService } from '../../../../services/auth/auth.service';
 import { PouleCompetition } from '../../../../models/poulecompetition.model';
-import { DragulaService } from 'ng2-dragula';
 import { Subscription } from 'rxjs';
+import { Poule } from '../../../../models/poule.model';
+import { UUID } from 'angular2-uuid';
+import { Participant } from '../../../../models/participant.model';
+import { DragulaService } from 'ng2-dragula';
 
 @Component({
   selector: 'details-poule',
@@ -14,39 +14,30 @@ import { Subscription } from 'rxjs';
 })
 export class DetailsPouleComponent implements OnInit {
 
-  public user: User;
-  private subs = new Subscription();
-  private isOwner: boolean
+  subs = new Subscription();
+  
   private canAddPoule: boolean
 
+  @Input() isOwner: boolean
   @Input() isEditMode: boolean
   @Input() competition: PouleCompetition;
 
-  constructor(private competitionService: CompetitionService, private route: ActivatedRoute, private authService: AuthService) { }
+
+  constructor(private competitionService: CompetitionService, private dragulaService: DragulaService) { }
 
   ngOnInit() {
-    this.authService.user.subscribe(user => {
-      this.user = user
-      this.competitionService.getCompetition(this.route.snapshot.paramMap.get('id')).subscribe(competition => {
-          this.competition = competition
-          this.setBooleans()
-      });
-    })
-  }
-
-  setBooleans(){
-    if(this.user.uid == this.competition.ownerId){
-      this.isOwner = true
+    let group = this.dragulaService.find("'poule'")
+    if(group == undefined){
+      group = this.dragulaService.createGroup("'poule'", {
+        moves: (el) => !el.classList.contains('no-drag')
+      })
     }
     else{
-      this.isOwner = false
+      group.options = {
+        moves: (el) => !el.classList.contains('no-drag')
+      }
     }
-    if((this.competition.participants.length / 2) < (this.competition.poules.length + 1)){
-      this.canAddPoule = false
-    }
-    else{
-      this.canAddPoule = true
-    }
+    this.canAddPoule = !((this.competition.participants.length / 2) < (this.competition.poules.length + 1))
   }
 
   ngOnDestroy() {
@@ -61,7 +52,7 @@ export class DetailsPouleComponent implements OnInit {
     this.isEditMode = value
   }
 
-  addParticipantToCompetition(participant: any){
+  addParticipantToCompetition(participant: Participant){
     let index = 0
     let hasSpace = false;
     var poule;
@@ -84,18 +75,23 @@ export class DetailsPouleComponent implements OnInit {
     this.competitionService.updateCompetition(this.competition)
   }
 
-  addPoule(): any{
+  addPoule(): Poule{
     if(!this.canAddPoule){
       console.log("Need more participants to add another poule")
       return;
     }
-    var pouleNumber = this.competition.poules.length + 1
-    var poule = {
-      name: "Poule " + pouleNumber,
+    var poule: Poule = {
+      uid: UUID.UUID(),
       participants: []
     }
     this.competition.poules.push(poule)
     return poule;
+  }
+
+  deletePoule(index: number) {
+    if (index > -1) {
+      this.competition.poules.splice(index, 1);
+   }
   }
 
 }

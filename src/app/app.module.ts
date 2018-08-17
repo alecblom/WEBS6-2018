@@ -31,7 +31,6 @@ import { DetailsPouleComponent } from './components/competition/details/poule/de
 import { DetailsTourneyComponent } from './components/competition/details/tourney/tourney.component';
 import { DetailsKnockoutComponent } from './components/competition/details/knockout/knockout.component';
 import { DragulaModule } from 'ng2-dragula';
-import { PouleListComponent } from './components/competition/details/poule/list/list.component';
 
 @NgModule({
   declarations: [
@@ -49,8 +48,7 @@ import { PouleListComponent } from './components/competition/details/poule/list/
     ProfileComponent,
     DetailsPouleComponent,
     DetailsTourneyComponent,
-    DetailsKnockoutComponent,
-    PouleListComponent
+    DetailsKnockoutComponent
   ],
   imports: [
     BrowserModule,

@@ -1,7 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { User } from '../../../models/user.model';
-import { DragulaService } from 'ng2-dragula';
-import { Subscription } from 'rxjs';
+import { Participant } from '../../../models/participant.model';
 
 @Component({
   selector: 'participant-list',
@@ -10,30 +8,13 @@ import { Subscription } from 'rxjs';
 })
 export class ParticipantListComponent implements OnInit {
 
-  @Input() participants: Array<User>;
-  @Input() name: string;
-  @Input() canEdit: boolean
+  @Input() participants: Array<Participant>;
 
-  subs = new Subscription()
-
-  constructor(private dragulaService: DragulaService) { }
+  constructor() { }
 
   ngOnInit() {
-      let group = this.dragulaService.find(this.name)
-      if(group == undefined){
-        group = this.dragulaService.createGroup(this.name, {
-          moves: (el) => !el.classList.contains('no-drag')
-        })
-      }
-      else{
-        group.options = {
-          moves: (el) => !el.classList.contains('no-drag')
-        }
-      }
+
   }
 
-  ngOnDestroy() {
-    this.subs.unsubscribe()
-  }
 
 }

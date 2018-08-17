@@ -1,5 +1,9 @@
-import { User } from "./user.model";
 import { Match } from "./match.model";
+import { Participant } from "./participant.model";
+
+export interface Round {
+    matches: Array<Match>
+}
 
 export class Competition {
     uid: string;
@@ -8,7 +12,15 @@ export class Competition {
     type: string;
     ownerId: string;
     maxParticipants: number;
-    matchTime: number;
-    participants: Array<User>;
-    matches: Array<Match>;
+    matchTime: string;
+    participants: Array<Participant>;
+    rounds: Array<Round>;
+    
+    static addRound(competition: Competition, matches: Array<Match>) {
+        const round: Round = {
+            matches: matches
+        }
+        competition.rounds.push(round)
+    }
 }
+
