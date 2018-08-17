@@ -20,7 +20,7 @@ export class DetailsTourneyComponent implements OnInit {
     this.competition.participants.sort((p1, p2) => (p2.points - p1.points))
   }
 
-  startCompetition(){
+  newRound(){
     let startDate: Date = new Date(this.competition.startDate)
     let matchTime = this.competition.matchTime.split(":")
     let newMatchTime = new Date(startDate.setTime(startDate.getTime() + ((+matchTime[0] * 3600000) +  (+matchTime[1] * 60000))))
@@ -43,11 +43,7 @@ export class DetailsTourneyComponent implements OnInit {
     Competition.addRound(this.competition, matches)
     this.competitionService.updateCompetition(this.competition)
   }
-
-  addRound(){
-
-  }
-
+  
   addParticipantToCompetition(participant: Participant){
     console.log("tourney add")
   }

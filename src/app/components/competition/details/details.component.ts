@@ -80,7 +80,7 @@ export class CompetitionDetailsComponent implements OnInit {
       case "poule":
         break
       case "tourney":
-        this.tourneyComponent.startCompetition()
+        this.tourneyComponent.newRound()
         break
       case "knockout":
         break

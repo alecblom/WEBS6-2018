@@ -1,12 +1,15 @@
-<table class="table" style="width: 20rem">
-  <tr>
-    <th>Rank</th>
-    <th>Name</th>
-    <th>Points</th>
-  </tr>
-  <tr *ngFor="let participant of competition.participants; let i = index">
-    <td>{{i+1}}</td>
-    <td>{{participant.name}}</td>
-    <td>{{participant.points}}</td>
-  </tr>
-</table>
+<div class="row">
+  <table class="table" style="width: 20rem">
+    <tr>
+      <th>Rank</th>
+      <th>Name</th>
+      <th>Points</th>
+    </tr>
+    <tr *ngFor="let participant of competition.participants; let i = index">
+      <td>{{i+1}}</td>
+      <td>{{participant.name}}</td>
+      <td>{{participant.points}}</td>
+    </tr>
+  </table>
+  <round-list [(rounds)]="competition.rounds"></round-list>
+</div>

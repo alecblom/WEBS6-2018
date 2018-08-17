@@ -1,9 +1,6 @@
 import { Match } from "./match.model";
 import { Participant } from "./participant.model";
-
-export interface Round {
-    matches: Array<Match>
-}
+import { Round } from "./round.model";
 
 export class Competition {
     uid: string;
