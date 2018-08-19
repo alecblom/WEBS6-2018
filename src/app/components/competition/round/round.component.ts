@@ -10,6 +10,7 @@ import { Participant } from '../../../models/participant.model';
 export class RoundComponent implements OnInit {
 
   @Input() rounds: Array<Round>
+  @Output() onWinnerSelect = new EventEmitter<any>()
 
   selectedRound: Round
 
@@ -19,6 +20,11 @@ export class RoundComponent implements OnInit {
     if(this.rounds.length > 0){
       this.selectedRound = this.rounds[0]
     }
+  }
+
+  saveCompetition() {
+    console.log("round")
+    this.onWinnerSelect.emit()
   }
 
   setSelectedRound(round: Round) {

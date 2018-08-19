@@ -11,5 +11,5 @@
       <td>{{participant.points}}</td>
     </tr>
   </table>
-  <round-list [(rounds)]="competition.rounds"></round-list>
+  <round-list [(rounds)]="competition.rounds" (onWinnerSelect)="saveCompetition()"></round-list>
 </div>

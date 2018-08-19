@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { CompetitionService } from '../../../../services/competition/competition.service';
 import { Subscription } from 'rxjs';
 import { Poule } from '../../../../models/poule.model';
@@ -7,6 +7,8 @@ import { Participant } from '../../../../models/participant.model';
 import { DragulaService } from 'ng2-dragula';
 import { ParticipantService } from '../../../../services/participant/participant.service';
 import { Competition } from '../../../../models/competition.model';
+import { Match } from '../../../../models/match.model';
+import { Round } from '../../../../models/round.model';
 
 @Component({
   selector: 'details-poule',
@@ -17,12 +19,12 @@ export class DetailsPouleComponent implements OnInit {
 
   subs = new Subscription();
   
-  private canAddPoule: boolean
-
+  @Input() canAddPoule: boolean
   @Input() isOwner: boolean
   @Input() isEditMode: boolean
   @Input() competition: Competition;
   @Input() participants: Array<Participant>
+  @Output() onSaveCompetition = new EventEmitter<any>()
 
   constructor(private competitionService: CompetitionService, private participantService: ParticipantService, private dragulaService: DragulaService) { }
 
@@ -53,15 +55,39 @@ export class DetailsPouleComponent implements OnInit {
     this.subs.unsubscribe();
   }
 
-  saveCompetition(){
-    this.participants.forEach(participant => {
-      this.participantService.updateParticipant(participant)
+  addRound() {
+    let startDate: Date = new Date(this.competition.startDate)
+    let matchTime = this.competition.matchTime.split(":")
+    let newMatchTime = new Date(startDate.setTime(startDate.getTime() + ((+matchTime[0] * 3600000) +  (+matchTime[1] * 60000))))
+
+    this.competition.poules.forEach(poule => {
+      let matches: Array<Match> = []
+      poule.participants.forEach((participant1, outer) => {
+        poule.participants.forEach((participant2, inner) => {
+          if(inner <= outer){
+            return
+          }
+          let match: Match = {
+            uid: UUID.UUID(),
+            round: 1,
+            participantIds: [participant1.uid, participant2.uid],
+            startTime: newMatchTime
+          }
+          matches.push(match)
+          newMatchTime = new Date(startDate.setTime(startDate.getTime() + ((+matchTime[0] * 3600000) +  (+matchTime[1] * 60000))))
+        })
+      })
+      const round: Round = {
+        matches: matches,
+        pouleId: poule.uid
+      }
+      this.competition.rounds.push(round)
     })
-    this.competitionService.updateCompetition(this.competition)
+
   }
 
-  setEditMode(value: boolean){
-    this.isEditMode = value
+  saveCompetition() {
+    this.onSaveCompetition.emit()
   }
 
   getPouleWithSpace(): Poule {
@@ -86,6 +112,7 @@ export class DetailsPouleComponent implements OnInit {
   }
 
   addPoule(): Poule{
+    this.canAddPoule = ((this.participants.length / 2) > (this.competition.poules.length))
     if(!this.canAddPoule){
       console.log("Need more participants to add another poule")
       return;
