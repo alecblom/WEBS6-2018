@@ -1,15 +1,17 @@
 <div class="row">
-  <table class="table" style="width: 20rem">
-    <tr>
-      <th>Rank</th>
-      <th>Name</th>
-      <th>Points</th>
-    </tr>
-    <tr *ngFor="let participant of participants; let i = index">
-      <td>{{i+1}}</td>
-      <td>{{participant.name}}</td>
-      <td>{{participant.points}}</td>
-    </tr>
-  </table>
-  <round-list [(rounds)]="competition.rounds"></round-list>
+    <table class="table" style="width: 20rem">
+        <tr>
+            <th>Rank</th>
+            <th>Name</th>
+            <th>Points</th>
+        </tr>
+        <tr *ngFor="let participant of participants; let i = index">
+            <td>{{i+1}}</td>
+            <td>{{participant.name}}</td>
+            <td>{{participant.points}}</td>
+        </tr>
+    </table>
+    <div *ngIf='competition.rounds!=undefined'>
+        <round-list [(rounds)]="competition.rounds"></round-list>
+    </div>
 </div>

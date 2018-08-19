@@ -13,12 +13,13 @@ export class DetailsTourneyComponent implements OnInit {
   @Input() competition: Competition
   @Input() participants: Array<Participant>
 
-  constructor(private competitionService: CompetitionService) { }
+  constructor(private competitionService: CompetitionService) {
+
+   }
 
   ngOnInit() {
-
   }
-  
+
   addParticipantToCompetition(participant: Participant){
     console.log("tourney add")
   }

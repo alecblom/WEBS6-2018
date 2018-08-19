@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RoundComponent } from './round.component';
+import { TestMocksModule } from '../../../modules/test/TestMocks.module';
+import { MatchComponent } from './match/match.component';
 
 describe('RoundComponent', () => {
   let component: RoundComponent;
@@ -8,7 +10,9 @@ describe('RoundComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RoundComponent ]
+      imports: [TestMocksModule],
+      declarations: [ RoundComponent,
+      MatchComponent ]
     })
     .compileComponents();
   }));
