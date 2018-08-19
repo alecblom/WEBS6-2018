@@ -9,7 +9,7 @@ import { Competition } from '../../../models/competition.model';
 @Component({
   selector: 'competition-list',
   templateUrl: './list.component.html',
-  styleUrls: ['./list.component.css']
+  styleUrls: ['./list.component.scss']
 })
 export class CompetitionListComponent implements OnInit {
 
