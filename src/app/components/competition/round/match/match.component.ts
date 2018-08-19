@@ -12,6 +12,7 @@ export class MatchComponent implements OnInit {
 
   @Input() match: Match
   @Input() matchNumber: any
+  @Output() onWinnerSelect = new EventEmitter<any>()
 
   participants: Array<Participant> = []
 
@@ -23,7 +24,6 @@ export class MatchComponent implements OnInit {
         this.participants[index] = participant
       })
     })
-    console.log(this.match.startTime)
   }
 
   winnerSelect(participant: Participant) {
@@ -31,6 +31,7 @@ export class MatchComponent implements OnInit {
       this.match.winnerId = participant.uid;
       participant.points += 3
       this.participantService.updateParticipant(participant)
+      this.onWinnerSelect.emit()
     }
   }
 

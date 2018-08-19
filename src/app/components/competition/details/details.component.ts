@@ -16,6 +16,7 @@ import { UUID } from 'angular2-uuid';
 import { ParticipantService } from '../../../services/participant/participant.service';
 import { Match } from '../../../models/match.model';
 import { RoundComponent } from '../round/round.component';
+import { Round } from '../../../models/round.model';
 
 @Component({
   selector: 'competition-details',
@@ -36,7 +37,10 @@ export class CompetitionDetailsComponent implements OnInit {
   private isOwner: boolean
   private isEditMode: boolean
   private isParticipating: boolean
+  private canStart: boolean
+  private isFull: boolean
   private isClosed: boolean
+  private canAddPoule: boolean
   private startDateString: string
 
   constructor(private competitionService: CompetitionService,
@@ -53,14 +57,18 @@ export class CompetitionDetailsComponent implements OnInit {
         this.competition = competition
         this.subs.add(this.participantService.getParticipants().subscribe(participants => {
           this.participants = participants.filter(participant => (participant.competitionId === this.competition.uid))
-          this.isParticipating = this.participants.filter(participant => (participant.userId === this.user.uid)).length > 0
-          this.isOwner = this.user.uid == this.competition.ownerId
-          this.isClosed = new Date(this.competition.startDate) < new Date()
+
+          this.setBooleans()
           this.startDateString = this.competition.startDate.toLocaleString()
           this.participants.sort((p1, p2) => (p2.points - p1.points))
-          this.competition.poules.forEach(poule => {
-            poule.participants = this.participants.filter((participant) => (participant.pouleId === poule.uid)).sort((p1, p2) => (p2.points - p1.points))
-          })
+          if(this.competition.poules){
+            this.competition.poules.forEach(poule => {
+              poule.participants = this.participants.filter((participant) => (participant.pouleId === poule.uid)).sort((p1, p2) => (p2.points - p1.points))
+              poule.rounds = this.competition.rounds.filter((round) => (round.pouleId === poule.uid))
+            })
+            this.canAddPoule = !((this.participants.length / 2) < (this.competition.poules.length))
+          }
+          this.canStartCompetition()
         }))
       }))
     }))
@@ -68,6 +76,13 @@ export class CompetitionDetailsComponent implements OnInit {
 
   ngOnDestroy() {
     this.subs.unsubscribe()
+  }
+
+  setBooleans() {
+    this.isFull = this.participants.length >= this.competition.maxParticipants
+    this.isParticipating = this.participants.filter(participant => (participant.userId === this.user.uid)).length > 0
+    this.isOwner = this.user.uid == this.competition.ownerId
+    this.isClosed = new Date(this.competition.startDate) < new Date()
   }
 
   deleteCompetition() {
@@ -79,44 +94,59 @@ export class CompetitionDetailsComponent implements OnInit {
       this.competitionService.deleteCompetition(this.competition)
     }
   }
-  addTestParticipant() {
-    let data: Array<any> = []
 
-    data["uid"] = UUID.UUID()
-    data["name"] = "Test Participant " + this.participants.length
-    data["userId"] = "-1"
-    if(this.competition.type == "poule"){
-      data["pouleId"] = this.detailsPouleComponent.getPouleWithSpace().uid
+  canStartCompetition() {
+    this.canStart = true
+    if(this.competition.poules){
+      this.competition.poules.forEach(poule => {
+        if(poule.participants.length < 2){
+          this.canStart = false
+        }
+      })
     }
-    this.participantService.createParticipant(data, this.competition.uid)
-    this.saveCompetition()
+    if(this.participants.length < 2){
+      this.canStart = false
+    }
   }
 
-  addRound(){
-    let startDate: Date = new Date(this.competition.startDate)
-    let matchTime = this.competition.matchTime.split(":")
-    let newMatchTime = new Date(startDate.setTime(startDate.getTime() + ((+matchTime[0] * 3600000) +  (+matchTime[1] * 60000))))
-    let matches: Array<Match> = []
-    this.participants.forEach((participant1, outer) =>{
-      this.participants.forEach((participant2, inner) => {
-        if(inner <= outer){
-          return
-        }
-        let match: Match = {
-          uid: UUID.UUID(),
-          round: 1,
-          participantIds: [participant1.uid, participant2.uid],
-          startTime: newMatchTime
-        }
-        matches.push(match)
-        newMatchTime = new Date(startDate.setTime(startDate.getTime() + ((+matchTime[0] * 3600000) +  (+matchTime[1] * 60000))))
+  addRound() {
+    if(this.competition.type == "poule"){
+      this.detailsPouleComponent.addRound()
+    }
+    else{
+      let startDate: Date = new Date(this.competition.startDate)
+      let matchTime = this.competition.matchTime.split(":")
+      let newMatchTime = new Date(startDate.setTime(startDate.getTime() + ((+matchTime[0] * 3600000) +  (+matchTime[1] * 60000))))
+      let matches: Array<Match> = []
+      this.participants.forEach((participant1, outer) =>{
+        this.participants.forEach((participant2, inner) => {
+          if(inner <= outer){
+            return
+          }
+          let match: Match = {
+            uid: UUID.UUID(),
+            round: 1,
+            participantIds: [participant1.uid, participant2.uid],
+            startTime: newMatchTime
+          }
+          matches.push(match)
+          newMatchTime = new Date(startDate.setTime(startDate.getTime() + ((+matchTime[0] * 3600000) +  (+matchTime[1] * 60000))))
+        })
       })
-    })
-    Competition.addRound(this.competition, matches)
+      const round: Round = {
+        matches: matches
+      }
+      this.competition.rounds.push(round)
+    }
     this.saveCompetition()
+    this.saveParticipants()
   }
 
   addParticipantToCompetition(){
+    if(this.participants.length >= this.competition.maxParticipants){
+      console.log("Max participants reached")
+      return
+    }
     let data: Array<any> = []
 
     data["uid"] = UUID.UUID()
@@ -128,13 +158,34 @@ export class CompetitionDetailsComponent implements OnInit {
     this.participantService.createParticipant(data, this.competition.uid)
     this.isParticipating = true
   }
+  
+  addTestParticipant() {
+    if(this.participants.length >= this.competition.maxParticipants){
+      console.log("Max participants reached")
+      return
+    }
+    let data: Array<any> = []
+
+    data["uid"] = UUID.UUID()
+    data["name"] = "Test Participant " + this.participants.length
+    data["userId"] = "-1"
+    if(this.competition.type == "poule"){
+      data["pouleId"] = this.detailsPouleComponent.getPouleWithSpace().uid
+    }
+    this.participantService.createParticipant(data, this.competition.uid)
+    this.saveCompetition()
+    this.saveParticipants()
+  }
 
   saveCompetition(){
+    this.competitionService.updateCompetition(this.competition)
+    this.setEditMode(false)
+  }
+
+  saveParticipants() {
     this.participants.forEach(participant => {
       this.participantService.updateParticipant(participant)
     })
-    this.competitionService.updateCompetition(this.competition)
-    this.setEditMode(false)
   }
 
   setEditMode(value: boolean){

@@ -1,4 +1,4 @@
-<div *ngIf="rounds.length > 0">
+<div *ngIf="rounds.length > 0" class="round-list">
   <nav>
     <div class="nav nav-tabs" id="nav-tab" role="tablist">
       <a *ngFor="let round of rounds; let i = index" [attr.class]="(selectedRound == round) ? 'active nav-item nav-link' : 'nav-item nav-link'" (click)="setSelectedRound(round)">
@@ -8,7 +8,7 @@
   </nav>
   <div *ngIf="selectedRound" class="tab-content" id="nav-tabContent">
     <div *ngFor="let match of selectedRound.matches; let j = index" class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-        <match-details [match]="match" [matchNumber]="j"></match-details>
+        <match-details [match]="match" [matchNumber]="j" (onWinnerSelect)="saveCompetition($event)"></match-details>
     </div>
   </div>
 </div>

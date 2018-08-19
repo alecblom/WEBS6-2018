@@ -13,12 +13,5 @@ export class Competition {
     matchTime: string;
     rounds: Array<Round>;
     poules?: Array<Poule>;
-    
-    static addRound(competition: Competition, matches: Array<Match>) {
-        const round: Round = {
-            matches: matches
-        }
-        competition.rounds.push(round)
-    }
 }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Competition } from '../../../../models/competition.model';
 import { Participant } from '../../../../models/participant.model';
 import { CompetitionService } from '../../../../services/competition/competition.service';
@@ -12,6 +12,7 @@ export class DetailsTourneyComponent implements OnInit {
 
   @Input() competition: Competition
   @Input() participants: Array<Participant>
+  @Output() onSaveCompetition = new EventEmitter<any>()
 
   constructor(private competitionService: CompetitionService) {
 
@@ -24,4 +25,7 @@ export class DetailsTourneyComponent implements OnInit {
     console.log("tourney add")
   }
 
+  saveCompetition() {
+    this.onSaveCompetition.emit()
+  }
 }
