@@ -1,5 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Round } from '../../../models/round.model';
+import { Participant } from '../../../models/participant.model';
 
 @Component({
   selector: 'round-list',
@@ -15,7 +16,7 @@ export class RoundComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    if(this.rounds.length > 1){
+    if(this.rounds.length > 0){
       this.selectedRound = this.rounds[0]
     }
   }

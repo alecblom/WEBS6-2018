@@ -1,6 +1,7 @@
 import { Match } from "./match.model";
 import { Participant } from "./participant.model";
 import { Round } from "./round.model";
+import { Poule } from "./poule.model";
 
 export class Competition {
     uid: string;
@@ -10,8 +11,8 @@ export class Competition {
     ownerId: string;
     maxParticipants: number;
     matchTime: string;
-    participants: Array<Participant>;
     rounds: Array<Round>;
+    poules?: Array<Poule>;
     
     static addRound(competition: Competition, matches: Array<Match>) {
         const round: Round = {

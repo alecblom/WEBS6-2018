@@ -13,6 +13,9 @@ import { Subscription } from 'rxjs';
 import { Participant } from '../../../models/participant.model';
 import { Form } from '@angular/forms';
 import { UUID } from 'angular2-uuid';
+import { ParticipantService } from '../../../services/participant/participant.service';
+import { Match } from '../../../models/match.model';
+import { RoundComponent } from '../round/round.component';
 
 @Component({
   selector: 'competition-details',
@@ -20,12 +23,13 @@ import { UUID } from 'angular2-uuid';
   styleUrls: ['./details.component.scss']
 })
 export class CompetitionDetailsComponent implements OnInit {
-  @ViewChild(DetailsPouleComponent) pouleComponent: DetailsPouleComponent
-  @ViewChild(DetailsTourneyComponent) tourneyComponent: DetailsTourneyComponent
-  @ViewChild(DetailsKnockoutComponent) knockoutComponent: DetailsKnockoutComponent
   
-  competition: Competition = undefined
+  @ViewChild(DetailsPouleComponent) detailsPouleComponent: DetailsPouleComponent
+  @ViewChild(RoundComponent) roundComponent: RoundComponent
+
+  competition: Competition
   user: User
+  participants: Array<Participant>
 
   subs = new Subscription()
 
@@ -37,6 +41,7 @@ export class CompetitionDetailsComponent implements OnInit {
 
   constructor(private competitionService: CompetitionService,
               private userService: UserService,
+              private participantService: ParticipantService,
               private route: ActivatedRoute,
               private authService: AuthService,
               private router: Router) { }
@@ -45,11 +50,18 @@ export class CompetitionDetailsComponent implements OnInit {
     this.subs.add(this.authService.user.subscribe(user => {
       this.user = user
       this.subs.add(this.competitionService.getCompetition(this.route.snapshot.paramMap.get('id')).subscribe(competition => {
-          this.competition = competition
-          this.isParticipating = this.competition.participants.filter(participant => (participant.userId === user.uid)).length > 0
+        this.competition = competition
+        this.subs.add(this.participantService.getParticipants().subscribe(participants => {
+          this.participants = participants.filter(participant => (participant.competitionId === this.competition.uid))
+          this.isParticipating = this.participants.filter(participant => (participant.userId === this.user.uid)).length > 0
           this.isOwner = this.user.uid == this.competition.ownerId
           this.isClosed = new Date(this.competition.startDate) < new Date()
           this.startDateString = this.competition.startDate.toLocaleString()
+          this.participants.sort((p1, p2) => (p2.points - p1.points))
+          this.competition.poules.forEach(poule => {
+            poule.participants = this.participants.filter((participant) => (participant.pouleId === poule.uid)).sort((p1, p2) => (p2.points - p1.points))
+          })
+        }))
       }))
     }))
   }
@@ -61,63 +73,67 @@ export class CompetitionDetailsComponent implements OnInit {
   deleteCompetition() {
     if(confirm("Are you sure you want to delete this competition?")){
       this.router.navigate([`/competitions/`]);
+      this.participants.forEach(participant => {
+        this.participantService.deleteParticipant(participant)
+      })
       this.competitionService.deleteCompetition(this.competition)
     }
   }
   addTestParticipant() {
-    const index = this.competition.participants.length
-    let testParticipant: Participant = {
-      uid: UUID.UUID(),
-      userId: "-1",
-      name: "Test Participant " + index,
-      points: 0
+    let data: Array<any> = []
+
+    data["uid"] = UUID.UUID()
+    data["name"] = "Test Participant " + this.participants.length
+    data["userId"] = "-1"
+    if(this.competition.type == "poule"){
+      data["pouleId"] = this.detailsPouleComponent.getPouleWithSpace().uid
     }
-    this.competition.participants.push(testParticipant)
+    this.participantService.createParticipant(data, this.competition.uid)
+    this.saveCompetition()
   }
 
-  startCompetition(){
-    switch(this.competition.type){
-      case "poule":
-        break
-      case "tourney":
-        this.tourneyComponent.newRound()
-        break
-      case "knockout":
-        break
-    }
+  addRound(){
+    let startDate: Date = new Date(this.competition.startDate)
+    let matchTime = this.competition.matchTime.split(":")
+    let newMatchTime = new Date(startDate.setTime(startDate.getTime() + ((+matchTime[0] * 3600000) +  (+matchTime[1] * 60000))))
+    let matches: Array<Match> = []
+    this.participants.forEach((participant1, outer) =>{
+      this.participants.forEach((participant2, inner) => {
+        if(inner <= outer){
+          return
+        }
+        let match: Match = {
+          uid: UUID.UUID(),
+          round: 1,
+          participantIds: [participant1.uid, participant2.uid],
+          startTime: newMatchTime
+        }
+        matches.push(match)
+        newMatchTime = new Date(startDate.setTime(startDate.getTime() + ((+matchTime[0] * 3600000) +  (+matchTime[1] * 60000))))
+      })
+    })
+    Competition.addRound(this.competition, matches)
+    this.saveCompetition()
   }
 
-  addParticipantToCompetition(participant: Participant){
-    switch(this.competition.type){
-      case "poule":
-        this.pouleComponent.addParticipantToCompetition(participant)
-        break
-      case "tourney":
-        this.competition.participants.push(participant)
-        this.competitionService.updateCompetition(this.competition)
-        this.tourneyComponent.addParticipantToCompetition(participant)
-        break
-      case "knockout":
-        this.competition.participants.push(participant)
-        this.competitionService.updateCompetition(this.competition)
-        this.knockoutComponent.addParticipantToCompetition(participant)
-        break
+  addParticipantToCompetition(){
+    let data: Array<any> = []
+
+    data["uid"] = UUID.UUID()
+    data["name"] = this.user.displayName
+    data["userId"] = this.user.uid
+    if(this.competition.type == "poule"){
+      data["pouleId"] = this.detailsPouleComponent.getPouleWithSpace().uid
     }
+    this.participantService.createParticipant(data, this.competition.uid)
     this.isParticipating = true
   }
 
   saveCompetition(){
-    switch(this.competition.type){
-      case "poule":
-        this.pouleComponent.saveCompetition()
-        break
-      case "tourney":
-        this.competitionService.updateCompetition(this.competition)
-        break
-      case "knockout":
-        this.competitionService.updateCompetition(this.competition)
-        break
-    }
+    this.participants.forEach(participant => {
+      this.participantService.updateParticipant(participant)
+    })
+    this.competitionService.updateCompetition(this.competition)
     this.setEditMode(false)
   }
 

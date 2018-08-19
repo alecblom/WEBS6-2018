@@ -8,6 +8,7 @@ import { Competition } from '../../../models/competition.model';
 import { Participant } from '../../../models/participant.model';
 import { Poule } from '../../../models/poule.model';
 import { UUID } from 'angular2-uuid';
+import { ParticipantService } from '../../../services/participant/participant.service';
 
 @Component({
   selector: 'competition-create',
@@ -26,7 +27,7 @@ export class CompetitionCreateComponent implements OnInit {
     { name: 'Poule', value: 'poule' },
   ];
 
-  constructor(private competitionService: CompetitionService, private router: Router, private authService: AuthService) {  }
+  constructor(private competitionService: CompetitionService, private participantService: ParticipantService, private router: Router, private authService: AuthService) {  }
 
   ngOnInit() {
     this.authService.user.subscribe(user => {
@@ -42,45 +43,42 @@ export class CompetitionCreateComponent implements OnInit {
 
   createCompetition(form: NgForm) {
     if (this.user && form.valid) {
-      const data: Array<any> = this.generateCompetitionData();
-      this.competitionService.createCompetition(data).then(
-        res => {
-          this.router.navigate([`/competition/${res}`]);
-        }
-      );
+      const data: Array<any> = this.generateCreateData();
+      this.competitionService.createCompetition(data[0]).then( competitionId => {
+        this.participantService.createParticipant(data[1], competitionId).then(participantId => {
+          
+        })
+      })
     }
   }
 
-  generateCompetitionData(): Array<any>{
-    const data: Array<any> = []
-    let participants: Array<Participant> = [];
-    const participant : Participant = {
-      uid: UUID.UUID(),
-      userId: this.user.uid,
-      name: this.user.displayName,
-      points: 0
-    }
-    participants.push(participant);
+  generateCreateData(): Array<any>{
+    let competitionData: Array<any> = []
+    let participantData: Array<any> = []
+
+    participantData["uid"] = UUID.UUID()
+    participantData["userId"] = this.user.uid
+    participantData["name"] = this.user.displayName
+    participantData["points"] = 0
     
-    data["name"] = this.competition.name;
-    data["startDate"] = this.competition.startDate;
-    data["type"] = this.competition.type;
-    data["ownerId"]  = this.competition.ownerId;
-    data["maxParticipants"] = this.competition.maxParticipants;
-    data["matchTime"] = this.competition.matchTime;
-    data["participants"] = participants;
-    data["rounds"] = [];
+    competitionData["name"] = this.competition.name;
+    competitionData["startDate"] = this.competition.startDate;
+    competitionData["type"] = this.competition.type;
+    competitionData["ownerId"]  = this.competition.ownerId;
+    competitionData["maxParticipants"] = this.competition.maxParticipants;
+    competitionData["matchTime"] = this.competition.matchTime;
+    competitionData["rounds"] = [];
 
     if(this.competition.type == "poule"){
       const poule: Poule = {
         uid: UUID.UUID(),
-        participants: participants,
+        participants: []
       }
-      data["poules"] = [poule]
+      participantData["pouleId"] = poule.uid
+      competitionData["poules"] = [poule]
     }
-    console.log(data)
     
-    return data;
+    return [competitionData, participantData];
   }
 
 }

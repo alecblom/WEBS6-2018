@@ -5,7 +5,7 @@
       <th>Name</th>
       <th>Points</th>
     </tr>
-    <tr *ngFor="let participant of competition.participants; let i = index">
+    <tr *ngFor="let participant of participants; let i = index">
       <td>{{i+1}}</td>
       <td>{{participant.name}}</td>
       <td>{{participant.points}}</td>

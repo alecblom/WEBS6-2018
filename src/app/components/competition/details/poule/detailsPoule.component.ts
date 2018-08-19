@@ -1,11 +1,12 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { CompetitionService } from '../../../../services/competition/competition.service';
-import { PouleCompetition } from '../../../../models/poulecompetition.model';
 import { Subscription } from 'rxjs';
 import { Poule } from '../../../../models/poule.model';
 import { UUID } from 'angular2-uuid';
 import { Participant } from '../../../../models/participant.model';
 import { DragulaService } from 'ng2-dragula';
+import { ParticipantService } from '../../../../services/participant/participant.service';
+import { Competition } from '../../../../models/competition.model';
 
 @Component({
   selector: 'details-poule',
@@ -20,10 +21,10 @@ export class DetailsPouleComponent implements OnInit {
 
   @Input() isOwner: boolean
   @Input() isEditMode: boolean
-  @Input() competition: PouleCompetition;
+  @Input() competition: Competition;
+  @Input() participants: Array<Participant>
 
-
-  constructor(private competitionService: CompetitionService, private dragulaService: DragulaService) { }
+  constructor(private competitionService: CompetitionService, private participantService: ParticipantService, private dragulaService: DragulaService) { }
 
   ngOnInit() {
     let group = this.dragulaService.find("'poule'")
@@ -37,7 +38,15 @@ export class DetailsPouleComponent implements OnInit {
         moves: (el) => !el.classList.contains('no-drag')
       }
     }
-    this.canAddPoule = !((this.competition.participants.length / 2) < (this.competition.poules.length + 1))
+
+    this.dragulaService.dropModel("'poule'").subscribe(({el, item}) => {
+      item.pouleId = el.parentElement.id
+    })
+
+    this.competition.poules.forEach(poule => {
+      poule.participants = this.participants.filter((participant) => (participant.pouleId === poule.uid)).sort((p1, p2) => (p2.points - p1.points))
+    })
+    this.canAddPoule = !((this.participants.length / 2) < (this.competition.poules.length))
   }
 
   ngOnDestroy() {
@@ -45,6 +54,9 @@ export class DetailsPouleComponent implements OnInit {
   }
 
   saveCompetition(){
+    this.participants.forEach(participant => {
+      this.participantService.updateParticipant(participant)
+    })
     this.competitionService.updateCompetition(this.competition)
   }
 
@@ -52,10 +64,10 @@ export class DetailsPouleComponent implements OnInit {
     this.isEditMode = value
   }
 
-  addParticipantToCompetition(participant: Participant){
+  getPouleWithSpace(): Poule {
     let index = 0
     let hasSpace = false;
-    var poule;
+    let poule: Poule;
     while(!hasSpace){
       if(index == this.competition.poules.length){
         poule = this.addPoule();
@@ -63,16 +75,14 @@ export class DetailsPouleComponent implements OnInit {
       else{
         poule = this.competition.poules[index]
       }
-      if(poule.participants.length > 3){
+      if(poule.participants && poule.participants.length > 2){
         index++
       }
       else{
         hasSpace = true;
       }
     }
-    poule.participants.push(participant)
-    this.competition.participants.push(participant)
-    this.competitionService.updateCompetition(this.competition)
+    return poule;
   }
 
   addPoule(): Poule{
@@ -85,12 +95,14 @@ export class DetailsPouleComponent implements OnInit {
       participants: []
     }
     this.competition.poules.push(poule)
+    this.canAddPoule = ((this.participants.length / 2) > (this.competition.poules.length))
     return poule;
   }
 
   deletePoule(index: number) {
     if (index > -1) {
       this.competition.poules.splice(index, 1);
+      this.canAddPoule = ((this.participants.length / 2) > (this.competition.poules.length))
    }
   }
 
