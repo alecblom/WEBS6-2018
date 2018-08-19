@@ -1,0 +1,6 @@
+@import 'sass/_mixins.scss';
+
+.user {
+    @include padding(20px);
+    @include text-color(#2F4F4F);
+}
