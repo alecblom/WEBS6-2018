@@ -1,4 +1,4 @@
-<div class="row">
+<div *ngIf="competition && competition.poules" class="row">
     <div *ngFor="let poule of competition.poules; let i = index" name="poule.name">
         <div class="poule-container">
             <div class="card text-center text-white bg-secondary mb-3" style="width: 20rem; height: 18rem;">
@@ -9,9 +9,9 @@
                     <h5>No Participants</h5>
                     <button *ngIf="poule.participants.length < 1 && isEditMode" class="btn-danger" (click)="deletePoule(i)">Delete Poule</button>
                 </div>
-                <div class="list-group container" dragula="'poule'" [(dragulaModel)]="poule.participants">
+                <div class="list-group container" dragula="'poule'" [(dragulaModel)]="poule.participants" id="{{poule.uid}}">
                     <div [attr.class]="isEditMode ? 'drag-item' : 'drag-item no-drag'" *ngFor="let participant of poule.participants" name="participants">
-                        <p class="list-group-item list-group-item-action" name="participant" id="{{ participant.uid }}">{{participant.name}}</p>
+                        <p class="list-group-item list-group-item-action" name="participant" id="{{participant.uid}}">{{participant.name}}</p>
                     </div>
                 </div>
             </div>

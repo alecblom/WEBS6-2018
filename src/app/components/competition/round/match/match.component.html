@@ -1,0 +1,11 @@
+<div class="container bordered" style="margin: 10px; padding: 0">
+  <div style="text-align: center; border-bottom: 1px solid black">
+    <h5>Match {{matchNumber+1}}</h5>
+  </div>
+  <div style="width: 100%">
+    <div *ngFor="let participant of participants" (click)="!match.winnerId && winnerSelect(participant)" [attr.class]="match.winnerId ? 'list-group-item' : 'list-group-item list-group-item-action'">
+      <div [attr.class]="participant.uid == match.winnerId ? 'match-winner' : ''">
+        <h5>{{participant.name}}</h5>
+      </div>
+  </div>
+</div>
