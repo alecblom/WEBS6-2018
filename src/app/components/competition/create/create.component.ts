@@ -27,16 +27,18 @@ export class CompetitionCreateComponent implements OnInit {
     { name: 'Poule', value: 'poule' },
   ];
 
-  constructor(private competitionService: CompetitionService, private participantService: ParticipantService, private router: Router, private authService: AuthService) {  }
+  constructor(private competitionService: CompetitionService,
+              private participantService: ParticipantService,
+              private router: Router,
+              private authService: AuthService) {  }
 
   ngOnInit() {
     this.authService.user.subscribe(user => {
-      if(user){
-        this.user = user
-        this.competition.ownerId = user.uid
-      }
-      else{
-        this.user = null
+      if (user) {
+        this.user = user;
+        this.competition.ownerId = user.uid;
+      } else {
+        this.user = null;
       }
     });
   }
@@ -46,38 +48,37 @@ export class CompetitionCreateComponent implements OnInit {
       const data: Array<any> = this.generateCreateData();
       this.competitionService.createCompetition(data[0]).then( competitionId => {
         this.participantService.createParticipant(data[1], competitionId).then(participantId => {
-          
-        })
-      })
+        });
+      });
     }
   }
 
-  generateCreateData(): Array<any>{
-    let competitionData: Array<any> = []
-    let participantData: Array<any> = []
+  generateCreateData(): Array<any> {
+    const competitionData: Array<any> = [];
+    const participantData: Array<any> = [];
 
-    participantData["uid"] = UUID.UUID()
-    participantData["userId"] = this.user.uid
-    participantData["name"] = this.user.displayName
-    participantData["points"] = 0
-    
-    competitionData["name"] = this.competition.name;
-    competitionData["startDate"] = this.competition.startDate;
-    competitionData["type"] = this.competition.type;
-    competitionData["ownerId"]  = this.competition.ownerId;
-    competitionData["maxParticipants"] = this.competition.maxParticipants;
-    competitionData["matchTime"] = this.competition.matchTime;
-    competitionData["rounds"] = [];
+    participantData['uid'] = UUID.UUID();
+    participantData['userId'] = this.user.uid;
+    participantData['name'] = this.user.displayName;
+    participantData['points'] = 0;
 
-    if(this.competition.type == "poule"){
+    competitionData['name'] = this.competition.name;
+    competitionData['startDate'] = this.competition.startDate;
+    competitionData['type'] = this.competition.type;
+    competitionData['ownerId']  = this.competition.ownerId;
+    competitionData['maxParticipants'] = this.competition.maxParticipants;
+    competitionData['matchTime'] = this.competition.matchTime;
+    competitionData['rounds'] = [];
+
+    if (this.competition.type === 'poule') {
       const poule: Poule = {
         uid: UUID.UUID(),
         participants: []
-      }
-      participantData["pouleId"] = poule.uid
-      competitionData["poules"] = [poule]
+      };
+      participantData['pouleId'] = poule.uid;
+      competitionData['poules'] = [poule];
     }
-    
+
     return [competitionData, participantData];
   }
 

@@ -1,0 +1,14 @@
+@import 'sass/_variables.scss';
+
+@mixin padding($padding...) {    
+    padding: $padding;
+}
+
+@mixin text-color($color) {
+    color: $color;
+}
+
+@mixin text-increase($increaseSize) {
+    font-size: $primaryTextSize * $increaseSize;
+}
+

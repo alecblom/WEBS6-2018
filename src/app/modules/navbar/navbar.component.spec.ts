@@ -4,6 +4,7 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
 import { NavbarComponent } from './navbar.component';
+import { TestMocksModule } from '../test/TestMocks.module';
 
 describe('NavbarComponent', () => {
   let component: NavbarComponent;
@@ -11,6 +12,7 @@ describe('NavbarComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [TestMocksModule],
       declarations: [ NavbarComponent ]
     })
     .compileComponents();

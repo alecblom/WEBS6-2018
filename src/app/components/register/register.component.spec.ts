@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RegisterComponent } from './register.component';
+import { TestMocksModule } from '../../modules/test/TestMocks.module';
 
 describe('RegisterComponent', () => {
   let component: RegisterComponent;
@@ -8,6 +9,7 @@ describe('RegisterComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [TestMocksModule],
       declarations: [ RegisterComponent ]
     })
     .compileComponents();

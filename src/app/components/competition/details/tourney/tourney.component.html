@@ -11,5 +11,5 @@
       <td>{{participant.points}}</td>
     </tr>
   </table>
-  <round-list [(rounds)]="competition.rounds" (onWinnerSelect)="saveCompetition()"></round-list>
+  <round-list *ngIf="competition.rounds" [(rounds)]="competition.rounds" (onWinnerSelect)="saveCompetition()"></round-list>
 </div>
