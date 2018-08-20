@@ -130,7 +130,7 @@ export class DetailsPouleComponent implements OnInit {
     if (index > -1) {
       this.competition.poules.splice(index, 1);
       this.canAddPoule = ((this.participants.length / 2) > (this.competition.poules.length))
-   }
+    }
   }
 
 }

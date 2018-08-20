@@ -9,6 +9,7 @@ export class Competition {
     startDate: Date;
     type: string;
     ownerId: string;
+    hasStarted: boolean;
     maxParticipants: number;
     matchTime: string;
     rounds: Array<Round>;

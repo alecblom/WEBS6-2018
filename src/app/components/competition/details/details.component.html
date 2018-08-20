@@ -34,15 +34,14 @@
                                 <option value=4>4</option>
                                 <option value=8>8</option>
                                 <option value=16>16</option>
-                                <option value=32>32</option>
                             </select>
                         </div>
                         <div class="settings-container">
                             <div *ngIf="isOwner == true">
-                                <button *ngIf="!isEditMode && competition.rounds.length < 1" class="btn btn-primary text-white settings-item" style="width: 10rem;" (click)="setEditMode(true)">Edit Competition</button>
+                                <button *ngIf="!isEditMode && !competition.hasStarted" class="btn btn-primary text-white settings-item" style="width: 10rem;" (click)="setEditMode(true)">Edit Competition</button>
                                 <button *ngIf="isEditMode" [disabled]="!editCompetitionForm.form.valid" class="btn btn-primary text-white settings-item" style="width: 10rem;" type="submit">Save Changes</button>
-                                <button *ngIf="competition.rounds.length < 1" [disabled]="!isClosed || !canStart" class="btn btn-primary text-white settings-item" style="width: 10rem;" (click)="addRound()">Start Competition</button>
-                                <button *ngIf="competition.rounds.length > 0" [disabled]="!isClosed" class="btn btn-primary text-white settings-item" style="width: 10rem;" (click)="addRound()">Add Round</button>
+                                <button *ngIf="!competition.hasStarted" [disabled]="!isClosed || !canStart" class="btn btn-primary text-white settings-item" style="width: 10rem;" (click)="addRound()">Start Competition</button>
+                                <button *ngIf="competition.hasStarted" [disabled]="!isClosed" class="btn btn-primary text-white settings-item" style="width: 10rem;" (click)="addRound()">Add Round</button>
                                 <button *ngIf="isEditMode" class="btn btn-danger text-white settings-item" style="width: 10rem;" (click)="deleteCompetition()">Delete Competition</button>
                             </div>
                             <button [disabled]="isClosed || isFull" class="btn btn-primary" style="width: 10rem;" [hidden]="isParticipating" (click)="addParticipantToCompetition()">Join</button>
@@ -65,7 +64,7 @@
             <details-tourney [(competition)]="competition" [(participants)]="participants" (onSaveCompetition)="saveCompetition()"></details-tourney>
         </div>
         <div *ngSwitchCase="'knockout'">
-            <details-knockout></details-knockout>
+            <details-knockout [(competition)]="competition"></details-knockout>
         </div>
         <div *ngSwitchCase="'poule'">
             <details-poule [competition]="competition" (onSaveCompetition)="saveCompetition()" [(participants)]="participants" [(isOwner)]="isOwner" [(isEditMode)]="isEditMode" [(canAddPoule)]="canAddPoule"></details-poule>

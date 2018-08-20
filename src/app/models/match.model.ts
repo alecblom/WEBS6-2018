@@ -1,3 +1,5 @@
+import { Participant } from "./participant.model";
+
 export class Match {
     uid: string;
     startTime: Date;

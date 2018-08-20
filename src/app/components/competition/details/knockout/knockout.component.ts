@@ -1,5 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { CompetitionService } from '../../../../services/competition/competition.service';
+import { Competition } from '../../../../models/competition.model';
+import { Participant } from '../../../../models/participant.model';
+import { ParticipantService } from '../../../../services/participant/participant.service';
 
 @Component({
   selector: 'details-knockout',
@@ -8,12 +11,13 @@ import { CompetitionService } from '../../../../services/competition/competition
 })
 export class DetailsKnockoutComponent implements OnInit {
 
-  constructor() { }
+  @Input() competition: Competition
+
+  constructor(private participantService: ParticipantService) { }
 
   ngOnInit() {
   }
 
   addParticipantToCompetition(participant: any){
-    console.log("knockout add")
   }
 }

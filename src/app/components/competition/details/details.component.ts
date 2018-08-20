@@ -1,17 +1,12 @@
 import { Component, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
 import { CompetitionService } from '../../../services/competition/competition.service';
-import { UserService } from '../../../services/user/user.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { AuthService } from '../../../services/auth/auth.service';
 import { User } from '../../../models/user.model';
 import { Competition } from '../../../models/competition.model';
 import { DetailsPouleComponent } from './poule/detailsPoule.component';
-import { DetailsKnockoutComponent } from './knockout/knockout.component';
-import { DetailsTourneyComponent } from './tourney/tourney.component';
-import { ParticipantListComponent } from '../../participant/list/list.component';
 import { Subscription } from 'rxjs';
 import { Participant } from '../../../models/participant.model';
-import { Form } from '@angular/forms';
 import { UUID } from 'angular2-uuid';
 import { ParticipantService } from '../../../services/participant/participant.service';
 import { Match } from '../../../models/match.model';
@@ -44,7 +39,6 @@ export class CompetitionDetailsComponent implements OnInit {
   private startDateString: string
 
   constructor(private competitionService: CompetitionService,
-              private userService: UserService,
               private participantService: ParticipantService,
               private route: ActivatedRoute,
               private authService: AuthService,
@@ -104,12 +98,16 @@ export class CompetitionDetailsComponent implements OnInit {
         }
       })
     }
+    if(this.competition.type == "knockout" && this.participants.length != this.competition.maxParticipants){
+      this.canStart = false
+    }
     if(this.participants.length < 2){
       this.canStart = false
     }
   }
 
   addRound() {
+    this.competition.hasStarted = true
     if(this.competition.type == "poule"){
       this.detailsPouleComponent.addRound()
     }
@@ -178,6 +176,35 @@ export class CompetitionDetailsComponent implements OnInit {
   }
 
   saveCompetition(){
+    if(!this.competition.hasStarted && this.competition.type == "knockout"){
+      if(this.competition.type == "knockout"){
+        let matchNumber = this.competition.maxParticipants / 2
+        let matchTime = this.competition.matchTime.split(":")
+        let startDate: Date = new Date(this.competition.startDate)
+        let newMatchTime = new Date(startDate.setTime(startDate.getTime() + ((+matchTime[0] * 3600000) +  (+matchTime[1] * 60000))))
+        let rounds: Array<Round> = []
+        while(matchNumber >= 1) {
+          let round: Round
+          let matches: Array<Match> = []
+          for(let i = 0; i < matchNumber; i++){
+            let match: Match = {
+              uid: UUID.UUID(),
+              round: 1,
+              participantIds: [],
+              startTime: newMatchTime
+            }
+            matches.push(match)
+            newMatchTime = new Date(startDate.setTime(startDate.getTime() + ((+matchTime[0] * 3600000) +  (+matchTime[1] * 60000))))
+          }
+          round = {
+            matches: matches
+          }
+          rounds.push(round)
+          matchNumber = matchNumber / 2
+        }
+        this.competition.rounds = rounds
+      }
+    }
     this.competitionService.updateCompetition(this.competition)
     this.setEditMode(false)
   }

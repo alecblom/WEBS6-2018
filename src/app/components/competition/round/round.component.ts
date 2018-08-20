@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Round } from '../../../models/round.model';
-import { Participant } from '../../../models/participant.model';
 
 @Component({
   selector: 'round-list',
@@ -23,7 +22,6 @@ export class RoundComponent implements OnInit {
   }
 
   saveCompetition() {
-    console.log("round")
     this.onWinnerSelect.emit()
   }
 

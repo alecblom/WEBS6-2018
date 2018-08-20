@@ -9,6 +9,8 @@ import { Participant } from '../../../models/participant.model';
 import { Poule } from '../../../models/poule.model';
 import { UUID } from 'angular2-uuid';
 import { ParticipantService } from '../../../services/participant/participant.service';
+import { Round } from '../../../models/round.model';
+import { Match } from '../../../models/match.model';
 
 @Component({
   selector: 'competition-create',
@@ -65,12 +67,13 @@ export class CompetitionCreateComponent implements OnInit {
     competitionData['name'] = this.competition.name;
     competitionData['startDate'] = this.competition.startDate;
     competitionData['type'] = this.competition.type;
+    competitionData['hasStarted'] = false
     competitionData['ownerId']  = this.competition.ownerId;
     competitionData['maxParticipants'] = this.competition.maxParticipants;
     competitionData['matchTime'] = this.competition.matchTime;
     competitionData['rounds'] = [];
 
-    if (this.competition.type === 'poule') {
+    if(this.competition.type === 'poule'){
       const poule: Poule = {
         uid: UUID.UUID(),
         participants: []
@@ -78,6 +81,37 @@ export class CompetitionCreateComponent implements OnInit {
       participantData['pouleId'] = poule.uid;
       competitionData['poules'] = [poule];
     }
+    if(this.competition.type == "knockout"){
+      let matchNumber = this.competition.maxParticipants / 2
+      let matchTime = this.competition.matchTime.split(":")
+      let startDate: Date = new Date(this.competition.startDate)
+      let newMatchTime = new Date(startDate.setTime(startDate.getTime() + ((+matchTime[0] * 3600000) +  (+matchTime[1] * 60000))))
+      let roundNumber = 1;
+      while(matchNumber >= 1) {
+        let round: Round
+        let matches: Array<Match> = []
+        for(let i = 0; i < matchNumber; i++){
+          let match: Match = {
+            uid: UUID.UUID(),
+            round: roundNumber,
+            participantIds: [],
+            startTime: newMatchTime
+          }
+          if(i == 0 && roundNumber == 1){
+            match.participantIds.push(participantData["uid"])
+          }
+          matches.push(match)
+          newMatchTime = new Date(startDate.setTime(startDate.getTime() + ((+matchTime[0] * 3600000) +  (+matchTime[1] * 60000))))
+        }
+        round = {
+          matches: matches
+        }
+        competitionData["rounds"].push(round)
+        matchNumber = matchNumber / 2
+        roundNumber++
+      }
+    }
+    console.log(competitionData)
 
     return [competitionData, participantData];
   }
