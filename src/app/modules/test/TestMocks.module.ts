@@ -50,7 +50,8 @@ export const testTourneyCompetition: Competition = {
   'name': 'test',
   'maxParticipants': 10,
   'matchTime': '2',
-  'poules': Array<Poule>()
+  'poules': Array<Poule>(),
+  'hasStarted': false
 };
 
 export const testPouleCompetition: Competition = {
@@ -62,7 +63,8 @@ export const testPouleCompetition: Competition = {
   'name': 'test',
   'maxParticipants': 10,
   'matchTime': '2',
-  'poules': Array<Poule>()
+  'poules': Array<Poule>(),
+  'hasStarted': false
 };
 
 export const testKnockoutCompetition: Competition = {
@@ -74,7 +76,8 @@ export const testKnockoutCompetition: Competition = {
   'name': 'test',
   'maxParticipants': 10,
   'matchTime': '2',
-  'poules': Array<Poule>()
+  'poules': Array<Poule>(),
+  'hasStarted': false
 };
 
 export const testPoule: Poule = {
