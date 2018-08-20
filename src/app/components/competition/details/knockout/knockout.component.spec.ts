@@ -1,7 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DetailsKnockoutComponent } from './knockout.component';
-import { TestMocksModule } from '../../../../modules/test/TestMocks.module';
+import { TestMocksModule, testKnockoutCompetition } from '../../../../modules/test/TestMocks.module';
+import { MatchComponent } from '../../round/match/match.component';
+import { KnockoutMatchComponent } from './match/match.component';
+import { DragulaModule } from 'ng2-dragula';
 
 describe('DetailsKnockoutComponent', () => {
   let component: DetailsKnockoutComponent;
@@ -9,8 +12,10 @@ describe('DetailsKnockoutComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ TestMocksModule ],
-      declarations: [ DetailsKnockoutComponent ]
+      imports: [ TestMocksModule, DragulaModule ],
+      declarations: [ DetailsKnockoutComponent,
+      KnockoutMatchComponent,
+    MatchComponent ]
     })
     .compileComponents();
   }));
@@ -18,6 +23,7 @@ describe('DetailsKnockoutComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(DetailsKnockoutComponent);
     component = fixture.componentInstance;
+    component.competition = testKnockoutCompetition;
     fixture.detectChanges();
   });
 
