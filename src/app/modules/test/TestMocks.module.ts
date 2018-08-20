@@ -26,6 +26,7 @@ import { MatchService } from '../../services/match/match.service';
 import { ParticipantService } from '../../services/participant/participant.service';
 import { UserService } from '../../services/user/user.service';
 import { Poule } from '../../models/poule.model';
+import { Participant } from '../../models/participant.model';
 
 export const testUser: User = {
     'uid': UUID.UUID(),
@@ -40,7 +41,7 @@ export const testMatch: Match = {
   'startTime': new Date(),
 };
 
-export const testCompetition: Competition = {
+export const testTourneyCompetition: Competition = {
   'uid': UUID.UUID(),
   'rounds': Array<Round>(),
   'startDate': new Date(),
@@ -50,6 +51,52 @@ export const testCompetition: Competition = {
   'maxParticipants': 10,
   'matchTime': '2',
   'poules': Array<Poule>()
+};
+
+export const testPouleCompetition: Competition = {
+  'uid': UUID.UUID(),
+  'rounds': Array<Round>(),
+  'startDate': new Date(),
+  'type': 'poule',
+  'ownerId': '2',
+  'name': 'test',
+  'maxParticipants': 10,
+  'matchTime': '2',
+  'poules': Array<Poule>()
+};
+
+export const testKnockoutCompetition: Competition = {
+  'uid': UUID.UUID(),
+  'rounds': Array<Round>(),
+  'startDate': new Date(),
+  'type': 'knockout',
+  'ownerId': '2',
+  'name': 'test',
+  'maxParticipants': 10,
+  'matchTime': '2',
+  'poules': Array<Poule>()
+};
+
+export const testPoule: Poule = {
+  'uid': UUID.UUID(),
+  'participants': Array<Participant>(),
+  'rounds': Array<Round>()
+};
+
+export const testParticipantA: Participant = {
+  'uid': UUID.UUID(),
+  'competitionId': '',
+  'points': 0,
+  'userId': '',
+  'name': 'testA',
+};
+
+export const testParticipantB: Participant = {
+  'uid': UUID.UUID(),
+  'competitionId': '',
+  'points': 0,
+  'userId': '',
+  'name': 'testB',
 };
 
 @NgModule({
