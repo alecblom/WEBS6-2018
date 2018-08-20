@@ -8,7 +8,7 @@
   </nav>
   <div *ngIf="selectedRound" class="tab-content" id="nav-tabContent">
     <div *ngFor="let match of selectedRound.matches; let j = index" class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-        <match-details [match]="match" [matchNumber]="j" (onWinnerSelect)="saveCompetition($event)"></match-details>
+        <match-details [match]="match" [matchNumber]="j" [isOwner]="isOwner" (onWinnerSelect)="saveCompetition($event)"></match-details>
     </div>
   </div>
 </div>

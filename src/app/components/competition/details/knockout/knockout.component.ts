@@ -17,6 +17,7 @@ export class DetailsKnockoutComponent implements OnInit {
   @Input() competition: Competition
   @Input() isEditMode: boolean
   @Input() participants: Array<Participant>
+  @Input() isOwner: boolean
   @Output() onMatchChanged = new EventEmitter<any>()
 
   constructor(private participantService: ParticipantService, private dragulaService: DragulaService, private competitionService: CompetitionService) { }

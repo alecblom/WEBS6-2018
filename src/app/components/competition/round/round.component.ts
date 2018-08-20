@@ -9,6 +9,7 @@ import { Round } from '../../../models/round.model';
 export class RoundComponent implements OnInit {
 
   @Input() rounds: Array<Round>
+  @Input() isOwner: boolean
   @Output() onWinnerSelect = new EventEmitter<any>()
 
   selectedRound: Round

@@ -12,6 +12,7 @@ export class DetailsTourneyComponent implements OnInit {
 
   @Input() competition: Competition
   @Input() participants: Array<Participant>
+  @Input() isOwner: boolean
   @Output() onSaveCompetition = new EventEmitter<any>()
 
   constructor(private competitionService: CompetitionService) {

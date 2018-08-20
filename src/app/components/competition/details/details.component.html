@@ -60,13 +60,13 @@
 
     <div [ngSwitch]="competition.type">
         <div *ngSwitchCase="'tourney'">
-            <details-tourney [(competition)]="competition" [(participants)]="participants" (onSaveCompetition)="saveCompetition()"></details-tourney>
+            <details-tourney [competition]="competition" [participants]="participants" [isOwner]="isOwner"  (onSaveCompetition)="saveCompetition()"></details-tourney>
         </div>
         <div *ngSwitchCase="'knockout'">
-            <details-knockout [(competition)]="competition" [isEditMode]="isEditMode" [participants]="participants" (onMatchChanged)="changeKnockoutMatches($event)"></details-knockout>
+            <details-knockout [competition]="competition" [isEditMode]="isEditMode" [isOwner]="isOwner"  [participants]="participants" (onMatchChanged)="changeKnockoutMatches($event)"></details-knockout>
         </div>
         <div *ngSwitchCase="'poule'">
-            <details-poule [competition]="competition" (onSaveCompetition)="saveCompetition()" [(participants)]="participants" [(isOwner)]="isOwner" [(isEditMode)]="isEditMode" [(canAddPoule)]="canAddPoule"></details-poule>
+            <details-poule [competition]="competition" (onSaveCompetition)="saveCompetition()" [participants]="participants" [isOwner]="isOwner" [isEditMode]="isEditMode" [canAddPoule]="canAddPoule"></details-poule>
         </div>
     </div>
 </div>

@@ -12,6 +12,7 @@ export class MatchComponent implements OnInit {
 
   @Input() match: Match
   @Input() matchNumber: any
+  @Input() isOwner: boolean
   @Output() onWinnerSelect = new EventEmitter<any>()
 
   participants: Array<Participant> = []
