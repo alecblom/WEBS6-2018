@@ -1,11 +1,12 @@
 <div class="container bordered" style="min-height: 170px; margin: 10px; padding: 0">
-    <div style="text-align: center; border-bottom: 1px solid black">
-      <h5>Match {{matchNumber+1}}</h5>
-    </div>
-    <div style="width: 100%">
-      <div *ngFor="let participant of participants" (click)="!match.winnerId && winnerSelect(participant)" [attr.class]="match.winnerId ? 'list-group-item' : 'list-group-item list-group-item-action'">
-        <div [attr.class]="participant.uid == match.winnerId ? 'match-winner' : ''">
-          <h5>{{participant.name}}</h5>
-        </div>
-    </div>
+  <div style="text-align: center; border-bottom: 1px solid black">
+    <h5>Match {{matchNumber+1}}</h5>
   </div>
+    <div class="list-group container" dragula="'match'" [(dragulaModel)]="participants" id="{{match.uid}}">
+      <div [attr.class]="isEditMode ? 'drag-item' : 'drag-item no-drag'" *ngFor="let participant of participants" name="participants">
+          <div [attr.class]="participant.uid == match.winnerId ? 'match-winner list-group-item list-group-item-action' : 'list-group-item list-group-item-action'" name="participant" id="{{participant.uid}}">
+            <h5>{{participant.name}}</h5>
+          </div>
+      </div>    
+  </div>
+</div>
