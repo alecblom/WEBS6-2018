@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DetailsTourneyComponent } from './tourney.component';
-import { TestMocksModule } from '../../../../modules/test/TestMocks.module';
+import { TestMocksModule, testTourneyCompetition } from '../../../../modules/test/TestMocks.module';
 import { RoundComponent } from '../../round/round.component';
 import { MatchComponent } from '../../round/match/match.component';
 
@@ -22,6 +22,7 @@ describe('DetailsTourneyComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(DetailsTourneyComponent);
     component = fixture.componentInstance;
+    component.competition = testTourneyCompetition;
     fixture.detectChanges();
   });
 
