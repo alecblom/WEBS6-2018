@@ -37,28 +37,30 @@ export class DetailsKnockoutComponent implements OnInit {
   }
 
   winnerSelect(round: Round, match: Match, participantId: string) {
-    if(this.competition.rounds[match.round]){
-      round.matches.forEach((outerMatch, i) =>{
-        if(match == outerMatch){
-          this.competition.rounds[match.round].matches.forEach((innerMatch, j) =>{
-            if((i == 0 || i == 1) && j == 0) {
-              innerMatch.participantIds.push(participantId)
-            }
-            if((i == 2 || i == 3) && j == 1) {
-              innerMatch.participantIds.push(participantId)
-            }
-            if((i == 4 || i == 5) && j == 2) {
-              innerMatch.participantIds.push(participantId)
-            }
-            if((i == 6 || i == 7) && j == 3) {
-              innerMatch.participantIds.push(participantId)
-            }
-          })
-        }
-      })
+    if(!match.winnerId && confirm("Declare " + this.participants[participantId].name + " as the winner?")) {
+      if(this.competition.rounds[match.round]){
+        round.matches.forEach((outerMatch, i) =>{
+          if(match == outerMatch){
+            this.competition.rounds[match.round].matches.forEach((innerMatch, j) =>{
+              if((i == 0 || i == 1) && j == 0) {
+                innerMatch.participantIds.push(participantId)
+              }
+              if((i == 2 || i == 3) && j == 1) {
+                innerMatch.participantIds.push(participantId)
+              }
+              if((i == 4 || i == 5) && j == 2) {
+                innerMatch.participantIds.push(participantId)
+              }
+              if((i == 6 || i == 7) && j == 3) {
+                innerMatch.participantIds.push(participantId)
+              }
+            })
+          }
+        })
+      }
+      match.winnerId = participantId
+      this.competitionService.updateCompetition(this.competition)
     }
-    match.winnerId = participantId
-    this.competitionService.updateCompetition(this.competition)
   }
 
   getParticipantById(uid: string): Participant {
