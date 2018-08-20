@@ -16,6 +16,7 @@ export class DetailsKnockoutComponent implements OnInit {
   constructor(private participantService: ParticipantService) { }
 
   ngOnInit() {
+    
   }
 
   addParticipantToCompetition(participant: any){

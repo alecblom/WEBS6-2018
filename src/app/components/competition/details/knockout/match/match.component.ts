@@ -8,7 +8,7 @@ import { ParticipantService } from '../../../../../services/participant/particip
   templateUrl: './match.component.html',
   styleUrls: ['./match.component.scss']
 })
-export class MatchComponent implements OnInit {
+export class KnockoutMatchComponent implements OnInit {
 
   @Input() match: Match
   @Input() matchNumber: any

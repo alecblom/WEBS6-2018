@@ -33,6 +33,7 @@ import { DetailsKnockoutComponent } from './components/competition/details/knock
 import { DragulaModule, DragulaService } from 'ng2-dragula';
 import { RoundComponent } from './components/competition/round/round.component';
 import { MatchComponent } from './components/competition/round/match/match.component';
+import { KnockoutMatchComponent } from './components/competition/details/knockout/match/match.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { MatchComponent } from './components/competition/round/match/match.compo
     DetailsTourneyComponent,
     DetailsKnockoutComponent,
     RoundComponent,
-    MatchComponent
+    MatchComponent,
+    KnockoutMatchComponent
   ],
   imports: [
     BrowserModule,
