@@ -1,5 +1,5 @@
 <div *ngIf="competition && competition.poules">
-    <div  class="row">
+    <div class="row">
         <div *ngFor="let poule of competition.poules; let i = index" name="poule.name">
             <div class="poule-container">
                 <div class="card text-center text-white bg-secondary mb-3" style="width: 20rem; height: 18rem;">
@@ -12,7 +12,8 @@
                     </div>
                     <div class="list-group container" dragula="'poule'" [(dragulaModel)]="poule.participants" id="{{poule.uid}}">
                         <div [attr.class]="isEditMode ? 'drag-item' : 'drag-item no-drag'" *ngFor="let participant of poule.participants" name="participants">
-                            <p class="list-group-item list-group-item-action" name="participant" id="{{participant.uid}}">{{participant.name}}</p>
+                            <p class="list-group-item list-group-item-action" name="participant" id="{{participant.uid}}">{{participant.name}} - {{participant.points}} points</p>
+
                         </div>
                     </div>
                 </div>
@@ -22,18 +23,18 @@
             <div class="poule-container">
                 <div class="card text-center text-white border-secondary mb-3" style="width: 20rem; height: 18rem;">
                     <div class="card-header">
-                    <button [disabled]="!canAddPoule" class="btn btn-primary text-white" style="width: 10rem;" (click)="addPoule() ">Add poule</button>
+                        <button [disabled]="!canAddPoule" class="btn btn-primary text-white" style="width: 10rem;" (click)="addPoule() ">Add poule</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <div class="row">
-        <div *ngFor="let poule of competition.poules; let i = index" >
+        <div *ngFor="let poule of competition.poules; let i = index">
             <div *ngIf="poule.rounds.length > 0">
                 <h1>Poule {{i+1}}</h1>
                 <round-list [(rounds)]="poule.rounds" (onWinnerSelect)="saveCompetition()"></round-list>
-            </div>    
+            </div>
         </div>
     </div>
 </div>
