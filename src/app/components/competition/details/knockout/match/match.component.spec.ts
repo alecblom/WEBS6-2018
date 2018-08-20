@@ -1,21 +1,25 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MatchComponent } from './match.component';
+import { KnockoutMatchComponent } from './match.component';
+import { TestMocksModule, testMatch } from '../../../../../modules/test/TestMocks.module';
+import { DragulaModule } from 'ng2-dragula';
 
-describe('MatchComponent', () => {
-  let component: MatchComponent;
-  let fixture: ComponentFixture<MatchComponent>;
+describe('KnockoutMatchComponent', () => {
+  let component: KnockoutMatchComponent;
+  let fixture: ComponentFixture<KnockoutMatchComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MatchComponent ]
+      imports: [ TestMocksModule, DragulaModule ],
+      declarations: [ KnockoutMatchComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MatchComponent);
+    fixture = TestBed.createComponent(KnockoutMatchComponent);
     component = fixture.componentInstance;
+    component.match = testMatch;
     fixture.detectChanges();
   });
 

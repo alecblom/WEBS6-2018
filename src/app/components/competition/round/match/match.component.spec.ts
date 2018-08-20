@@ -19,6 +19,7 @@ describe('MatchComponent', () => {
     fixture = TestBed.createComponent(MatchComponent);
     component = fixture.componentInstance;
     component.match = testMatch;
+    component.matchNumber = 0;
     fixture.detectChanges();
   });
 

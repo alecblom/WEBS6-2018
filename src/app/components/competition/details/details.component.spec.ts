@@ -93,4 +93,21 @@ describe('CompetitionDetailsComponent', () => {
     component.addRound();
     expect(component.competition.rounds.length).toBe(testKnockoutCompetition.rounds.length);
   });
+
+  it('should add a participants to a competition without throwing', () => {
+    component.competition = testTourneyCompetition;
+    component.participants.push(testParticipantA);
+    component.participants.push(testParticipantB);
+    component.user = testUser;
+    expect(() => component.addParticipantToCompetition()).not.toThrow();
+  });
+
+  it('should add a test participants to a competition without throwing', () => {
+    component.competition = testTourneyCompetition;
+    component.participants.push(testParticipantA);
+    component.participants.push(testParticipantB);
+    component.user = testUser;
+    expect(() => component.addTestParticipant()).not.toThrow();
+  });
+
 });
