@@ -7,6 +7,8 @@ import { DetailsTourneyComponent } from './tourney/tourney.component';
 import { DetailsKnockoutComponent } from './knockout/knockout.component';
 import { DetailsPouleComponent } from './poule/detailsPoule.component';
 import { RoundComponent } from '../round/round.component';
+import { DragulaModule } from 'ng2-dragula';
+import { MatchComponent } from '../round/match/match.component';
 
 describe('CompetitionDetailsComponent', () => {
   let component: CompetitionDetailsComponent;
@@ -14,14 +16,15 @@ describe('CompetitionDetailsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [TestMocksModule],
+      imports: [TestMocksModule, DragulaModule],
       declarations: [
         CompetitionDetailsComponent,
         ParticipantListComponent,
         DetailsTourneyComponent,
         DetailsKnockoutComponent,
         DetailsPouleComponent,
-        RoundComponent
+        RoundComponent,
+        MatchComponent
       ]
     })
       .compileComponents();
