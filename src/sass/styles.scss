@@ -1,10 +1,10 @@
 @import 'sass/variables';
 @import 'sass/mixins';
 @import "~bootstrap/scss/bootstrap.scss";
-
 body {
     background: $primaryColor;
     margin: 2em;
+    font-size: $primaryTextSize;
 }
 
 h1 {
@@ -27,6 +27,7 @@ button {
     color: #888;
     font-family: Cambria, Georgia;
 }
+
 
 /* everywhere else */
 
