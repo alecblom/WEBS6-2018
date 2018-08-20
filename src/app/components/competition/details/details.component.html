@@ -40,7 +40,7 @@
                             <div *ngIf="isOwner == true">
                                 <button *ngIf="!isEditMode && !competition.hasStarted" class="btn btn-primary text-white settings-item" style="width: 10rem;" (click)="setEditMode(true)">Edit Competition</button>
                                 <button *ngIf="isEditMode" [disabled]="!editCompetitionForm.form.valid" class="btn btn-primary text-white settings-item" style="width: 10rem;" type="submit">Save Changes</button>
-                                <button *ngIf="!competition.hasStarted" [disabled]="!isClosed || !canStart" class="btn btn-primary text-white settings-item" style="width: 10rem;" (click)="addRound()">Start Competition</button>
+                                <button *ngIf="!competition.hasStarted" [disabled]="!isClosed || !canStart" class="btn btn-primary text-white settings-item" style="width: 10rem;" (click)="startCompetition()">Start Competition</button>
                                 <button *ngIf="competition.hasStarted" [disabled]="!isClosed" class="btn btn-primary text-white settings-item" style="width: 10rem;" (click)="addRound()">Add Round</button>
                                 <button *ngIf="isEditMode" class="btn btn-danger text-white settings-item" style="width: 10rem;" (click)="deleteCompetition()">Delete Competition</button>
                             </div>
@@ -53,7 +53,7 @@
         <div class="details-container">
             <div class="card text-center border-dark mb-3 " style="width: 20rem;">
                 <h2 class="card-header">Participants</h2>
-                <participant-list [(participants)]="participants"></participant-list>
+                <participant-list [participants]="participants"></participant-list>
                 <button *ngIf="isEditMode" [disabled]="isFull" class="btn btn-primary text-white settings-item" style="width: 10rem;" (click)="addTestParticipant()">Add Test Participant</button>
             </div>
         </div>
@@ -64,7 +64,7 @@
             <details-tourney [(competition)]="competition" [(participants)]="participants" (onSaveCompetition)="saveCompetition()"></details-tourney>
         </div>
         <div *ngSwitchCase="'knockout'">
-            <details-knockout [(competition)]="competition"></details-knockout>
+            <details-knockout [(competition)]="competition" [isEditMode]="isEditMode" [participants]="participants" (onMatchChanged)="changeKnockoutMatches($event)"></details-knockout>
         </div>
         <div *ngSwitchCase="'poule'">
             <details-poule [competition]="competition" (onSaveCompetition)="saveCompetition()" [(participants)]="participants" [(isOwner)]="isOwner" [(isEditMode)]="isEditMode" [(canAddPoule)]="canAddPoule"></details-poule>

@@ -47,6 +47,7 @@ export class DetailsPouleComponent implements OnInit {
 
     this.dragulaService.dropModel("'poule'").subscribe(({el, item}) => {
       item.pouleId = el.parentElement.id
+      this.participantService.updateParticipant(item)
     })
 
     this.competition.poules.forEach(poule => {

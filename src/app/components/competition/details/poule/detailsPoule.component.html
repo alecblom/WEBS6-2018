@@ -30,7 +30,7 @@
     </div>
     <div class="row">
         <div *ngFor="let poule of competition.poules; let i = index" >
-            <div *ngIf="poule.rounds.length > 0">
+            <div *ngIf="poule.rounds.length && poule.rounds.length > 0">
                 <h1>Poule {{i+1}}</h1>
                 <round-list [(rounds)]="poule.rounds" (onWinnerSelect)="saveCompetition()"></round-list>
             </div>    

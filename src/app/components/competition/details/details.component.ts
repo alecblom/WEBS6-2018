@@ -51,6 +51,9 @@ export class CompetitionDetailsComponent implements OnInit {
         this.competition = competition
         this.subs.add(this.participantService.getParticipants().subscribe(participants => {
           this.participants = participants.filter(participant => (participant.competitionId === this.competition.uid))
+          participants.filter(participant => (participant.competitionId === this.competition.uid)).forEach(participant =>{
+            this.participants[participant.uid] = participant
+          })
 
           this.setBooleans()
           this.startDateString = this.competition.startDate.toLocaleString()
@@ -104,6 +107,11 @@ export class CompetitionDetailsComponent implements OnInit {
     if(this.participants.length < 2){
       this.canStart = false
     }
+  }
+
+  startCompetition() {
+    this.competition.hasStarted = true
+    this.saveCompetition()
   }
 
   addRound() {
@@ -170,43 +178,38 @@ export class CompetitionDetailsComponent implements OnInit {
     if(this.competition.type == "poule"){
       data["pouleId"] = this.detailsPouleComponent.getPouleWithSpace().uid
     }
+    if(this.competition.type == "knockout"){
+      this.getMatchWithSpace().participantIds.push(data["uid"])
+    }
     this.participantService.createParticipant(data, this.competition.uid)
     this.saveCompetition()
     this.saveParticipants()
   }
 
-  saveCompetition(){
-    if(!this.competition.hasStarted && this.competition.type == "knockout"){
-      if(this.competition.type == "knockout"){
-        let matchNumber = this.competition.maxParticipants / 2
-        let matchTime = this.competition.matchTime.split(":")
-        let startDate: Date = new Date(this.competition.startDate)
-        let newMatchTime = new Date(startDate.setTime(startDate.getTime() + ((+matchTime[0] * 3600000) +  (+matchTime[1] * 60000))))
-        let rounds: Array<Round> = []
-        while(matchNumber >= 1) {
-          let round: Round
-          let matches: Array<Match> = []
-          for(let i = 0; i < matchNumber; i++){
-            let match: Match = {
-              uid: UUID.UUID(),
-              round: 1,
-              participantIds: [],
-              startTime: newMatchTime
-            }
-            matches.push(match)
-            newMatchTime = new Date(startDate.setTime(startDate.getTime() + ((+matchTime[0] * 3600000) +  (+matchTime[1] * 60000))))
-          }
-          round = {
-            matches: matches
-          }
-          rounds.push(round)
-          matchNumber = matchNumber / 2
-        }
-        this.competition.rounds = rounds
+  getMatchWithSpace(): Match {
+    let retMatch: Match
+    this.competition.rounds[0].matches.forEach(match => {
+      if(match.participantIds.length < 2){
+        retMatch = match
       }
+    })
+    return retMatch
+  }
+
+  saveCompetition(){
+    let canSave = true
+    if(this.competition.type == "knockout"){
+      this.competition.rounds[0].matches.forEach(match =>{
+        if(match.participantIds.length > 2){
+          alert("Make sure every match has no more than 2 participants")
+          canSave = false
+        }
+      })
     }
-    this.competitionService.updateCompetition(this.competition)
-    this.setEditMode(false)
+    if(canSave){
+      this.competitionService.updateCompetition(this.competition)
+      this.setEditMode(false)
+    }
   }
 
   saveParticipants() {

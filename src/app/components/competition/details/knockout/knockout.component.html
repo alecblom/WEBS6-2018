@@ -2,7 +2,18 @@
   <div *ngFor="let round of competition.rounds.slice().reverse(); let i = index" class="row">
     <div *ngFor="let match of round.matches; let matchNumber = index" class="knockout-round knockout-round-{{i}}" style="height: 100%; text-align: center;">
       |
-      <knockout-match [match]="match" [matchNumber]="matchNumber" style="height: 100%"></knockout-match>
+      <div class="container bordered knockout-match">
+        <div style="text-align: center; border-bottom: 1px solid black">
+          <h5>Match {{matchNumber+1}}</h5>
+        </div>
+          <div class="list-group container" dragula="'knockoutmatch{{i}}'" [(dragulaModel)]="match.participantIds" id="{{match.uid}}">
+            <div [attr.class]="isEditMode ? 'drag-item' : 'drag-item no-drag'" *ngFor="let participantId of match.participantIds" name="participantId">
+                <div [attr.class]="participantId == match.winnerId ? 'match-winner list-group-item list-group-item-action' : 'list-group-item list-group-item-action'" name="participant" id="{{participantId}}">
+                  <h5 *ngIf="participants[participantId]">{{participants[participantId].name}}</h5>
+                </div>
+            </div>    
+        </div>
+      </div>
     </div>
   </div>
 </div>
