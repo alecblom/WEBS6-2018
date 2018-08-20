@@ -10,6 +10,8 @@ import { RoundComponent } from '../round/round.component';
 import { DragulaModule } from 'ng2-dragula';
 import { MatchComponent } from '../round/match/match.component';
 import { Participant } from '../../../models/participant.model';
+import { KnockoutCompetition } from '../../../models/knockoutcompetition.model';
+import { KnockoutMatchComponent } from './knockout/match/match.component';
 
 describe('CompetitionDetailsComponent', () => {
   let component: CompetitionDetailsComponent;
@@ -25,7 +27,8 @@ describe('CompetitionDetailsComponent', () => {
         DetailsKnockoutComponent,
         DetailsPouleComponent,
         RoundComponent,
-        MatchComponent
+        MatchComponent,
+        KnockoutMatchComponent
       ]
     })
       .compileComponents();
