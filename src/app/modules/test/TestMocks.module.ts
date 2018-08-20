@@ -15,6 +15,9 @@ import { environment } from '../../../environments/environment';
 // Models
 import { User } from '../../models/user.model';
 import { UUID } from 'angular2-uuid';
+import { Match } from '../../models/match.model';
+import { Competition } from '../../models/competition.model';
+import { Round } from '../../models/round.model';
 
 // Services
 import { AuthService } from '../../services/auth/auth.service';
@@ -22,9 +25,7 @@ import { CompetitionService } from '../../services/competition/competition.servi
 import { MatchService } from '../../services/match/match.service';
 import { ParticipantService } from '../../services/participant/participant.service';
 import { UserService } from '../../services/user/user.service';
-import { Match } from '../../models/match.model';
-import { Competition } from '../../models/competition.model';
-import { Round } from '../../models/round.model';
+import { Poule } from '../../models/poule.model';
 
 export const testUser: User = {
     'uid': UUID.UUID(),
@@ -47,7 +48,8 @@ export const testCompetition: Competition = {
   'ownerId': '2',
   'name': 'test',
   'maxParticipants': 10,
-  'matchTime': '2'
+  'matchTime': '2',
+  'poules': Array<Poule>()
 };
 
 @NgModule({
