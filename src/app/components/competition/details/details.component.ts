@@ -57,6 +57,7 @@ export class CompetitionDetailsComponent implements OnInit {
 
           this.setBooleans()
           this.startDateString = this.competition.startDate.toLocaleString()
+          this.startDateString = this.startDateString.split("T")[0] + " " + this.startDateString.split("T")[1]
           this.participants.sort((p1, p2) => (p2.points - p1.points))
           if(this.competition.poules){
             this.competition.poules.forEach(poule => {

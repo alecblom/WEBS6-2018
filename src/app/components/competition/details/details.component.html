@@ -33,7 +33,6 @@
                                 [(ngModel)]="competition.maxParticipants" #maxParticipants="ngModel">
                                 <option value=4>4</option>
                                 <option value=8>8</option>
-                                <option value=16>16</option>
                             </select>
                         </div>
                         <div class="settings-container">
@@ -41,7 +40,7 @@
                                 <button *ngIf="!isEditMode && !competition.hasStarted" class="btn btn-primary text-white settings-item" style="width: 10rem;" (click)="setEditMode(true)">Edit Competition</button>
                                 <button *ngIf="isEditMode" [disabled]="!editCompetitionForm.form.valid" class="btn btn-primary text-white settings-item" style="width: 10rem;" type="submit">Save Changes</button>
                                 <button *ngIf="!competition.hasStarted" [disabled]="!isClosed || !canStart" class="btn btn-primary text-white settings-item" style="width: 10rem;" (click)="startCompetition()">Start Competition</button>
-                                <button *ngIf="competition.hasStarted" [disabled]="!isClosed" class="btn btn-primary text-white settings-item" style="width: 10rem;" (click)="addRound()">Add Round</button>
+                                <button *ngIf="competition.hasStarted && competition.type != 'knockout'" [disabled]="!isClosed" class="btn btn-primary text-white settings-item" style="width: 10rem;" (click)="addRound()">Add Round</button>
                                 <button *ngIf="isEditMode" class="btn btn-danger text-white settings-item" style="width: 10rem;" (click)="deleteCompetition()">Delete Competition</button>
                             </div>
                             <button [disabled]="isClosed || isFull" class="btn btn-primary" style="width: 10rem;" [hidden]="isParticipating" (click)="addParticipantToCompetition()">Join</button>
