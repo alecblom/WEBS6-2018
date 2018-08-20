@@ -162,6 +162,9 @@ export class CompetitionDetailsComponent implements OnInit {
     if(this.competition.type == "poule"){
       data["pouleId"] = this.detailsPouleComponent.getPouleWithSpace().uid
     }
+    if(this.competition.type == "knockout"){
+      this.getMatchWithSpace().participantIds.push(data["uid"])
+    }
     this.participantService.createParticipant(data, this.competition.uid)
     this.isParticipating = true
   }

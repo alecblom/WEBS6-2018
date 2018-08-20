@@ -7,7 +7,7 @@
           <h5>Match {{matchIndex+1}}</h5>
         </div>
           <div class="list-group container" dragula="'knockoutmatch{{roundIndex}}'" [(dragulaModel)]="match.participantIds" id="{{match.uid}}">
-            <div [attr.class]="isEditMode ? 'drag-item' : 'drag-item no-drag'" *ngFor="let participantId of match.participantIds" name="participantId" (click)="competition.hasStarted && !match.winnerId && winnerSelect(round, match, participantId)">
+            <div [attr.class]="isEditMode ? 'drag-item' : 'drag-item no-drag'" *ngFor="let participantId of match.participantIds" name="participantId" (click)="isOwner && competition.hasStarted && !match.winnerId && winnerSelect(round, match, participantId)">
                 <div [attr.class]="participantId == match.winnerId ? 'match-winner list-group-item list-group-item-action' : 'list-group-item list-group-item-action'" name="participant" id="{{participantId}}">
                   <h5 *ngIf="participants[participantId]">{{participants[participantId].name}}</h5>
                 </div>
