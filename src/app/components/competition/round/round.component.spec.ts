@@ -3,6 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RoundComponent } from './round.component';
 import { TestMocksModule } from '../../../modules/test/TestMocks.module';
 import { MatchComponent } from './match/match.component';
+import { Round } from '../../../models/round.model';
 
 describe('RoundComponent', () => {
   let component: RoundComponent;
@@ -20,6 +21,7 @@ describe('RoundComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(RoundComponent);
     component = fixture.componentInstance;
+    component.rounds = Array<Round>();
     fixture.detectChanges();
   });
 

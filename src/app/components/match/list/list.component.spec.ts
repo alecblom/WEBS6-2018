@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MatchListComponent } from './list.component';
 import { TestMocksModule } from '../../../modules/test/TestMocks.module';
+import { Match } from '../../../models/match.model';
 
 describe('ListComponent', () => {
   let component: MatchListComponent;
@@ -18,6 +19,7 @@ describe('ListComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(MatchListComponent);
     component = fixture.componentInstance;
+    component.matches = Array<Match>();
     fixture.detectChanges();
   });
 

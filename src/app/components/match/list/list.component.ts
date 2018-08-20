@@ -8,11 +8,10 @@ import { Match } from '../../../models/match.model';
 })
 export class MatchListComponent implements OnInit {
 
-  @Input() matches: Array<Match>
+  @Input() matches: Array<Match>;
 
   constructor() { }
 
   ngOnInit() {
   }
-
 }

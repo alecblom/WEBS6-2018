@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 import { Poule } from '../../../../models/poule.model';
 import { UUID } from 'angular2-uuid';
 import { Participant } from '../../../../models/participant.model';
-import { DragulaService } from 'ng2-dragula';
+import { DragulaService, DragulaModule } from 'ng2-dragula';
 import { ParticipantService } from '../../../../services/participant/participant.service';
 import { Competition } from '../../../../models/competition.model';
 import { Match } from '../../../../models/match.model';
@@ -26,7 +26,11 @@ export class DetailsPouleComponent implements OnInit {
   @Input() participants: Array<Participant>
   @Output() onSaveCompetition = new EventEmitter<any>()
 
-  constructor(private competitionService: CompetitionService, private participantService: ParticipantService, private dragulaService: DragulaService) { }
+  constructor(
+    private competitionService: CompetitionService,
+    private participantService: ParticipantService,
+    private dragulaService: DragulaService
+  ) { }
 
   ngOnInit() {
     let group = this.dragulaService.find("'poule'")

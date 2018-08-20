@@ -30,7 +30,7 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { DetailsPouleComponent } from './components/competition/details/poule/detailsPoule.component';
 import { DetailsTourneyComponent } from './components/competition/details/tourney/tourney.component';
 import { DetailsKnockoutComponent } from './components/competition/details/knockout/knockout.component';
-import { DragulaModule } from 'ng2-dragula';
+import { DragulaModule, DragulaService } from 'ng2-dragula';
 import { RoundComponent } from './components/competition/round/round.component';
 import { MatchComponent } from './components/competition/round/match/match.component';
 
@@ -67,7 +67,7 @@ import { MatchComponent } from './components/competition/round/match/match.compo
     NavbarModule,
     DragulaModule.forRoot()
   ],
-  providers: [AuthService, AuthGuard, AppRoutingModule, CompetitionService],
+  providers: [AuthService, AuthGuard, AppRoutingModule, DragulaService, CompetitionService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

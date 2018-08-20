@@ -22,11 +22,32 @@ import { CompetitionService } from '../../services/competition/competition.servi
 import { MatchService } from '../../services/match/match.service';
 import { ParticipantService } from '../../services/participant/participant.service';
 import { UserService } from '../../services/user/user.service';
+import { Match } from '../../models/match.model';
+import { Competition } from '../../models/competition.model';
+import { Round } from '../../models/round.model';
 
 export const testUser: User = {
     'uid': UUID.UUID(),
     'displayName': 'Test Participant',
     'email': ''
+};
+
+export const testMatch: Match = {
+  'uid': UUID.UUID(),
+  'participantIds': ['1'],
+  'round': 2,
+  'startTime': new Date(),
+};
+
+export const testCompetition: Competition = {
+  'uid': UUID.UUID(),
+  'rounds': Array<Round>(),
+  'startDate': new Date(),
+  'type': 'tourney',
+  'ownerId': '2',
+  'name': 'test',
+  'maxParticipants': 10,
+  'matchTime': '2'
 };
 
 @NgModule({
