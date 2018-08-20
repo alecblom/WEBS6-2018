@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MatchComponent } from './match.component';
-import { TestMocksModule } from '../../../../modules/test/TestMocks.module';
+import { TestMocksModule, testMatch } from '../../../../modules/test/TestMocks.module';
 
 describe('MatchComponent', () => {
   let component: MatchComponent;
@@ -18,6 +18,7 @@ describe('MatchComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(MatchComponent);
     component = fixture.componentInstance;
+    component.match = testMatch;
     fixture.detectChanges();
   });
 
